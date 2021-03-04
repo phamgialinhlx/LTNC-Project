@@ -1,29 +1,27 @@
 #include "GameObjects.h"
 
-GameObjects::GameObjects()
+GameObjects::GameObjects(double x, double y, int width, int height)
 {
-	texture = NULL;
-	x = 0;
-	y = 0;
-	width = 0;
-	height = 0;
+	this->x = x;
+	this->y = y;
+	this->width = width;
+	this->height = height;
 }
 
 GameObjects::~GameObjects()
 {
-	free();
+	
 }
 
-void GameObjects::free()
-{
-	if (texture != 0)
-	{
-		SDL_DestroyTexture(texture);
-		texture = NULL;
-		x = 0;
-		y = 0;
-		height = 0;
-		width = 0;
-	}
+double GameObjects::getX() {
+	return x;
 }
+
+double GameObjects::getY() {
+	return y;
+}
+
+
+
+
 

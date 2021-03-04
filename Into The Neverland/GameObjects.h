@@ -3,7 +3,13 @@
 #define GAME_OBJECTS_H
 
 #include <SDL.h>
+#include <SDL_image.h>
 #include <string>
+#include "TheGame.h"
+#include "Resources.h"
+
+class theGame;
+	
 class GameObjects
 {
 protected:
@@ -11,21 +17,15 @@ protected:
 	int width;
 	int height;
 
-	SDL_Texture* texture;
-
 public:
 	double getX();
 	double getY();
 
-	double getCenterX();
-	double getCenterY();
-
-	GameObjects();
+	GameObjects(double x, double y, int width, int height);
 	~GameObjects();
 
-	bool getTexture(std::string filepath);
-	void render(int x, int y, SDL_Rect* clip = NULL);
-	void free();
+	virtual void render(SDL_Renderer* renderer, Resources* resources) = 0;
+	
 };
 
 

@@ -1,25 +1,30 @@
 #pragma once
-#ifndef THE_GAME
-#define THE_GAME
+
+#ifndef THE_GAME_H
+#define THE_GAME_H
 
 #include <SDL.h>
 #include <string>
 #include <iostream>
+#include <vector>
+#include "GameObjects.h"
+
+
+class GameObjects;
 
 class theGame
 {
-public:
-	theGame();
-	~theGame();
-
-	void clearScreen();
-	void initSDL();
 private:
 	static const int screenWidth, screenHeight;
 	static const std::string windowTitle;
 
-	SDL_Window* screenWindow;
-	SDL_Renderer* renderer;
+	std::vector <GameObjects*> gameObjects;
+
+public:
+	theGame();
+	~theGame();
+
+	std::vector<GameObjects*> *getGameObjects();
 };
 
 
