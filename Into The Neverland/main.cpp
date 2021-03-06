@@ -22,9 +22,10 @@ int main(int argc, char* argv[])
 				loop = false;
 			}
 		}
+		intoTheNeverland.update();
 
 		graphics.clearScreen();
-		graphics.renderGameObjects(intoTheNeverland.getGameObjects());
+		graphics.renderGameObjects(intoTheNeverland.getGameObjects(),intoTheNeverland.getTimeBetweenFrames());
 		graphics.rendererPresent();
 	}
 	

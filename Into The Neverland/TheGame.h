@@ -8,16 +8,14 @@
 #include <iostream>
 #include <vector>
 #include "GameObjects.h"
-
+#include "Clock.h"
 
 class GameObjects;
 
 class theGame
 {
 private:
-	static const int screenWidth, screenHeight;
-	static const std::string windowTitle;
-
+	Clock clock;
 	std::vector <GameObjects*> gameObjects;
 
 public:
@@ -25,6 +23,9 @@ public:
 	~theGame();
 
 	std::vector<GameObjects*> *getGameObjects();
+	void update();
+	double getTimeBetweenFrames();
+
 };
 
 

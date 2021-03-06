@@ -1,6 +1,6 @@
 #include "Graphics.h"
 
-const int Graphics::screenWidth = 1200, Graphics::screenHeight = 600;
+const int Graphics::screenWidth = 900, Graphics::screenHeight = 400;
 const std::string Graphics::windowTitle = "Into The Neverland: 9 + 1 = 11";
 
 
@@ -39,9 +39,9 @@ Graphics::~Graphics()
     delete resources;
 }
 
-void Graphics::renderGameObjects(std::vector<GameObjects*>* gameObjects) {
+void Graphics::renderGameObjects(std::vector<GameObjects*>* gameObjects, double timeBetweenFrames) {
     for (int i = 0; i < gameObjects->size(); i++) {
-        (*gameObjects)[i]->render(renderer, resources);
+        (*gameObjects)[i]->render(renderer, resources, timeBetweenFrames);
     }
 }
 
@@ -54,4 +54,11 @@ void Graphics::rendererPresent() {
 
     SDL_RenderPresent(renderer);
 
+}
+
+int Graphics::getScreenWidth() {
+    return screenWidth;
+}
+int Graphics::getScreenHeight() {
+    return screenHeight;
 }

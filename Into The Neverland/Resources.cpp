@@ -23,6 +23,7 @@ void Resources::loadTexture(SDL_Texture **texture, std::string path) {
 
 void Resources::loadResources() {
     loadTexture(&texture["background"], "background.png");
+    loadTexture(&texture["character"], "character.png");
 }
 
 SDL_Texture* Resources::getTexture(std::string path) {

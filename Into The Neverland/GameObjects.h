@@ -24,7 +24,8 @@ public:
 	GameObjects(double x, double y, int width, int height);
 	~GameObjects();
 
-	virtual void render(SDL_Renderer* renderer, Resources* resources) = 0;
+	virtual void render(SDL_Renderer* renderer, Resources* resources, double timeBetweenFrames) = 0;
+	virtual void update(double timeBetweenFrames) = 0;
 	
 };
 
