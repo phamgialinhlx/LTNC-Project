@@ -2,27 +2,24 @@
 #include "GameObjects.h"
 #include "TheGame.h"
 #include "Graphics.h"
+#include "Inputs.h"
 
 int main(int argc, char* argv[])
 {
 	srand(time(NULL));
-	int startTime = SDL_GetTicks();
 
-	theGame intoTheNeverland;
+	Inputs inputs;
 	Graphics graphics;
+	theGame intoTheNeverland;
+	
 	bool loop = true;
 	SDL_Event e;
 	while (loop) {
 
-		while (SDL_PollEvent(&e) != 0)
-		{
-			//User requests quit
-			if (e.type == SDL_QUIT)
-			{
-				loop = false;
-			}
-		}
-		intoTheNeverland.update();
+		inputs.update();
+		loop = !inputs.getQuit();
+
+		intoTheNeverland.update(&inputs);
 
 		graphics.clearScreen();
 		graphics.renderGameObjects(intoTheNeverland.getGameObjects(),intoTheNeverland.getTimeBetweenFrames());

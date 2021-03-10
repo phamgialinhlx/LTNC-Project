@@ -5,6 +5,7 @@
 #include <SDL.h>
 #include "GameObjects.h"
 #include "Resources.h"
+#include "Inputs.h"
 #include <vector>
 
 class GameObjects;
@@ -16,13 +17,17 @@ private:
 
 	double vX, vY;
 	double x, y;
+	double screenWidth, screenHeight;
+	double width, height;
 	bool alive;
 
 public:
-	character(double vX, double vY, double x, double y, std::vector<GameObjects*>* gameObjects);
+	character(double vX, double vY, double x, double y, double width, double height,
+			  double screenWidth, double screenHeight, std::vector<GameObjects*>* gameObjects);
 	void render(SDL_Renderer* renderer, Resources* resources, double timeBetweenFrames);
-	void update(double timeBetweenFrames);
+	void update(double timeBetweenFrames, Inputs *inputs);
 	bool isAlive();
+	
 };
 
 #endif // !CHARACTER_H

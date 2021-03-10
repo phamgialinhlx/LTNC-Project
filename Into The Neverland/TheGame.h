@@ -9,6 +9,7 @@
 #include <vector>
 #include "GameObjects.h"
 #include "Clock.h"
+#include "Inputs.h"
 
 class GameObjects;
 
@@ -23,7 +24,7 @@ public:
 	~theGame();
 
 	std::vector<GameObjects*> *getGameObjects();
-	void update();
+	void update(Inputs *inputs);
 	double getTimeBetweenFrames();
 
 };

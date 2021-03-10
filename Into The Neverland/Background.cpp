@@ -1,7 +1,7 @@
 #include "Background.h"
 
 
-backGround::backGround(int vX, int vY, int x, int y, int width, int height, std::vector<GameObjects*>* gameObjects)
+backGround::backGround(double vX, double vY, double x, double y, double width, double height, std::vector<GameObjects*>* gameObjects)
                       :GameObjects(x, y, width, height) {
     this->vX = vX;
     this->vY = vY;
@@ -9,7 +9,6 @@ backGround::backGround(int vX, int vY, int x, int y, int width, int height, std:
     this->x = x;
     this->y = y;
 
-    scrollingOffset = 0;
 
     this->width = width;
     this->height = height;
@@ -21,17 +20,14 @@ void backGround::render(SDL_Renderer* renderer, Resources* resources, double tim
     SDL_Texture* texture;
     texture = resources->getTexture("background");
 
-
-    int textureWidth, textureHeight;
-    SDL_QueryTexture(texture, NULL, NULL, &textureWidth, &textureHeight);
     SDL_Rect dst = {
-        scrollingOffset,
-        y,
+        x,
+        y,  
         width,
         height
     };
     SDL_Rect dst2 = {
-        scrollingOffset + width,
+        x + width,
         y,
         width,
         height
@@ -43,11 +39,11 @@ void backGround::render(SDL_Renderer* renderer, Resources* resources, double tim
     
 }
 
-void backGround::update(double timeBetweenFrames) {
-    --scrollingOffset;
-    if (scrollingOffset < -width)
+void backGround::update(double timeBetweenFrames, Inputs *inputs) {
+    x -= vX*timeBetweenFrames;
+    if (x < -width)
     {
-        scrollingOffset = 0;
+        x = 0;
     }
 }
 

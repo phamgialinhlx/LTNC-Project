@@ -5,25 +5,24 @@
 #include "GameObjects.h"
 #include "Resources.h"
 #include "Clock.h"
+#include "Inputs.h"
 #include <string>
 
 class GameObjects;
 class Resources;
-class clock;
+
 
 class backGround : public GameObjects{
 private:
 
-	int vX;
-	int vY;
+	double vX;
+	double vY;
 
-	int x;
-	int y;
+	double x;
+	double y;
 
-	int width;
-	int height;
-
-	int scrollingOffset;
+	double width;
+	double height;
 
 	std::vector<GameObjects*> *gameObjects;
 
@@ -31,10 +30,10 @@ public:
 	double getX();
 	double getY();
 
-	backGround(int vX, int vY, int x, int y, int width, int heigth, std::vector<GameObjects*>* gameObjects);
+	backGround(double vX, double vY, double x, double y, double width, double height, std::vector<GameObjects*>* gameObjects);
 	void render(SDL_Renderer* renderer, Resources* resources, double timeBetweenFrames);
 
-	void update(double timeBetweenFrames);
+	void update(double timeBetweenFrames, Inputs *inputs);
 
 	int getWidth();
 	int getHeight();

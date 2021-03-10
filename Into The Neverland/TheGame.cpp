@@ -6,8 +6,8 @@
 
 theGame::theGame()
 {
-    gameObjects.push_back(new backGround(10 , 0, 0, 0, 900, 400, &gameObjects));
-    gameObjects.push_back(new character(0, 0, 200, 200, &gameObjects));
+    gameObjects.push_back(new backGround(100 , 0, 0, 0, 900, 400, &gameObjects));
+    gameObjects.push_back(new character(0, 200, 200, 200, 30, 50, 900, 400, &gameObjects));
 }
 
 theGame::~theGame()
@@ -26,11 +26,11 @@ double theGame::getTimeBetweenFrames() {
     return clock.getTimeBetweenFrames();
 }
 
-void theGame::update() {
+void theGame::update(Inputs *inputs) {
 
     clock.tick();
 
     for (int i = 0; i < gameObjects.size(); i++) {
-        gameObjects[i]->update(clock.getTimeBetweenFrames());
+        gameObjects[i]->update(clock.getTimeBetweenFrames(), inputs);
     }
 }

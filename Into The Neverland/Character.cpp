@@ -1,12 +1,17 @@
 #include "Character.h"
 
-character::character(double vX, double vY, double x, double y, std::vector<GameObjects*>* gameObjects)
+character::character(double vX, double vY, double x, double y, double width, double height, 
+					 double screenWidth, double screenHeight, std::vector<GameObjects*>* gameObjects)
 					:GameObjects(x, y, width, height) 
 {
 	this->vX = vX;
 	this->vY = vY;
 	this->x = x;
 	this->y = y;
+	this->width = width;
+	this->height = height;
+	this->screenWidth = screenWidth;
+	this->screenHeight = screenHeight;
 	alive = true;
 	this->gameObjects = gameObjects;
 }
@@ -15,13 +20,11 @@ void character::render(SDL_Renderer* renderer, Resources* resources, double time
 	SDL_Texture* texture;
 	texture = resources->getTexture("character");
 
-	int textureWidth, textureHeight;
-	SDL_QueryTexture(texture, NULL, NULL, &textureWidth, &textureHeight);
 	SDL_Rect dst = {
 		(int)x,
 		(int)y,
-		textureWidth,
-		textureHeight
+		width,
+		height
 	};
 
 	SDL_RenderCopyEx(renderer, texture, NULL, &dst, 0,
@@ -32,6 +35,22 @@ bool character::isAlive() {
 	return alive;
 }
 
-void character::update(double timeBetweenFrames) {
+void character::update(double timeBetweenFrames, Inputs *inputs) {
+
+	if (inputs->isKeyDown(SDL_SCANCODE_SPACE)) {
+		y -= timeBetweenFrames * vY;
+	}
+	else {
+		y += timeBetweenFrames * vY;
+	}
+	
+	if (y + height > screenHeight - 25) {
+		y = screenHeight - 25 - height;
+	}
+
+	if (y < 25) {
+		y = 25;
+	}
+
 
 }

@@ -23,5 +23,3 @@ double GameObjects::getY() {
 
 
 
-
-
