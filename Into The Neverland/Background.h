@@ -4,7 +4,6 @@
 
 #include "GameObjects.h"
 #include "Resources.h"
-#include "Clock.h"
 #include "Inputs.h"
 #include <string>
 
@@ -34,7 +33,8 @@ public:
 	void render(SDL_Renderer* renderer, Resources* resources, double timeBetweenFrames);
 
 	void update(double timeBetweenFrames, Inputs *inputs);
-
+	bool isAlive();
+	int getID();
 	int getWidth();
 	int getHeight();
 };

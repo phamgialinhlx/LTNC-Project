@@ -7,16 +7,21 @@
 #include <string>
 #include <iostream>
 #include <vector>
+
 #include "GameObjects.h"
-#include "Clock.h"
 #include "Inputs.h"
+#include "Clock.h"
+
 
 class GameObjects;
+class Threat;
 
 class theGame
 {
 private:
 	Clock clock;
+	Threat *threats;
+	double threatCoolDown;
 	std::vector <GameObjects*> gameObjects;
 
 public:
@@ -26,7 +31,7 @@ public:
 	std::vector<GameObjects*> *getGameObjects();
 	void update(Inputs *inputs);
 	double getTimeBetweenFrames();
-
+	void checkCollisions();
 };
 
 

@@ -5,7 +5,11 @@
 #include <SDL.h>
 #include <string>
 #include <vector>
+#include "Resources.h"
 #include "GameObjects.h"
+
+
+
 class Graphics {
 private:
 	static const int screenWidth, screenHeight;

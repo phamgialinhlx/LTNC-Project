@@ -3,12 +3,11 @@
 #define CHARACTER_H
 
 #include <SDL.h>
+#include <vector>
 #include "GameObjects.h"
 #include "Resources.h"
 #include "Inputs.h"
-#include <vector>
 
-class GameObjects;
 
 class character : public GameObjects
 {
@@ -27,7 +26,7 @@ public:
 	void render(SDL_Renderer* renderer, Resources* resources, double timeBetweenFrames);
 	void update(double timeBetweenFrames, Inputs *inputs);
 	bool isAlive();
-	
+	int getID();
 };
 
 #endif // !CHARACTER_H

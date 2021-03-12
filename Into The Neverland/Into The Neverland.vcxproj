@@ -151,6 +151,8 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="TheGame.cpp" />
+    <ClCompile Include="Threat.cpp" />
+    <ClCompile Include="Wall.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Background.h" />
@@ -161,6 +163,8 @@
     <ClInclude Include="Inputs.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="TheGame.h" />
+    <ClInclude Include="Threat.h" />
+    <ClInclude Include="Wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

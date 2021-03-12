@@ -54,3 +54,11 @@ int backGround::getWidth() {
 int backGround::getHeight() {
     return height;
 }
+
+bool backGround::isAlive() {
+    return true;
+}
+
+int backGround::getID() {
+    return 0;
+}

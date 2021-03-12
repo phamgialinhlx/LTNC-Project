@@ -54,3 +54,7 @@ void character::update(double timeBetweenFrames, Inputs *inputs) {
 
 
 }
+
+int character::getID() {
+	return 1;
+}
