@@ -17,17 +17,10 @@ private:
 	double vX;
 	double vY;
 
-	double x;
-	double y;
-
-	double width;
-	double height;
-
 	std::vector<GameObjects*> *gameObjects;
 
 public:
-	double getX();
-	double getY();
+	
 
 	backGround(double vX, double vY, double x, double y, double width, double height, std::vector<GameObjects*>* gameObjects);
 	void render(SDL_Renderer* renderer, Resources* resources, double timeBetweenFrames);
@@ -35,8 +28,7 @@ public:
 	void update(double timeBetweenFrames, Inputs *inputs);
 	bool isAlive();
 	int getID();
-	int getWidth();
-	int getHeight();
+	void die();
 };
 
 #endif // !BACKGROUND_H

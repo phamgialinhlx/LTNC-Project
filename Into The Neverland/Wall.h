@@ -16,9 +16,6 @@ public:
 	std::vector<GameObjects*> *gameObjects;
 
 	double velocity;
-	double x, y;
-	double screenWidth, screenHeight;
-	double width, height;
 	bool alive;
 
 public:
@@ -28,6 +25,7 @@ public:
 	void update(double timeBetweenFrames, Inputs* inputs);
 	bool isAlive();
 	int getID();
+	void die();
 };
 
 #endif // !WALL_H

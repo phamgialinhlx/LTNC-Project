@@ -2,15 +2,9 @@
 
 Wall::Wall(double velocity, double x, double y, double width, double height,
 	double screenWidth, double screenHeight, std::vector<GameObjects*>* gameObjects) 
-	:GameObjects(x, y, width, height)
+	:GameObjects(x, y, width, height, screenWidth, screenHeight)
 {
 	this->velocity = velocity;
-	this->x = x;
-	this->y = y;
-	this->width = width;
-	this->height = height;
-	this->screenWidth = screenWidth;
-	this->screenHeight = screenHeight;
 	alive = true;
 	this->gameObjects = gameObjects;
 }
@@ -32,7 +26,7 @@ void Wall::render(SDL_Renderer* renderer, Resources* resources, double timeBetwe
 
 void Wall::update(double timeBetweenFrames, Inputs* inputs) {
 	x -= velocity * timeBetweenFrames;
-	if (x + width < -screenWidth) {
+	if (x + width < 0) {
 		alive = false;
 	}
 }
@@ -43,4 +37,8 @@ bool Wall::isAlive() {
 
 int Wall::getID() {
 	return 2;
+}
+
+void Wall::die() {
+
 }

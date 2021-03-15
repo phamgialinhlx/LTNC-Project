@@ -21,18 +21,21 @@ protected:
 	double x, y;
 	double width;
 	double height;
-
+	double screenWidth, screenHeight;
 public:
-	GameObjects(double x, double y, int width, int height);
+	GameObjects(double x, double y, double width, double height, double screenWidth, double screenHeight);
 	~GameObjects();
 
 	double getX();
 	double getY();
+	double getWidth();
+	double getHeight();
 
 	virtual void render(SDL_Renderer* renderer, Resources* resources, double timeBetweenFrames) = 0;
 	virtual void update(double timeBetweenFrames, Inputs *inputs) = 0;
 	virtual bool isAlive() = 0;
 	virtual int getID() = 0;
+	virtual void die() = 0;
 	
 };
 

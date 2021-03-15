@@ -2,16 +2,10 @@
 
 character::character(double vX, double vY, double x, double y, double width, double height, 
 					 double screenWidth, double screenHeight, std::vector<GameObjects*>* gameObjects)
-					:GameObjects(x, y, width, height) 
+					:GameObjects(x, y, width, height, screenWidth, screenHeight) 
 {
 	this->vX = vX;
 	this->vY = vY;
-	this->x = x;
-	this->y = y;
-	this->width = width;
-	this->height = height;
-	this->screenWidth = screenWidth;
-	this->screenHeight = screenHeight;
 	alive = true;
 	this->gameObjects = gameObjects;
 }
@@ -57,4 +51,8 @@ void character::update(double timeBetweenFrames, Inputs *inputs) {
 
 int character::getID() {
 	return 1;
+}
+
+void character::die() {
+	alive = false;
 }

@@ -22,6 +22,7 @@ private:
 	Clock clock;
 	Threat *threats;
 	double threatCoolDown;
+	bool gameOver;
 	std::vector <GameObjects*> gameObjects;
 
 public:
@@ -32,6 +33,7 @@ public:
 	void update(Inputs *inputs);
 	double getTimeBetweenFrames();
 	void checkCollisions();
+	bool returnGameOver();
 };
 
 

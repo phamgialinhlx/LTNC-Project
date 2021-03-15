@@ -14,15 +14,21 @@ int main(int argc, char* argv[])
 	bool loop = true;
 	SDL_Event e;
 	while (loop) {
-
+		
+		
 		inputs.update();
 		loop = !inputs.getQuit();
-
+		
 		intoTheNeverland.update(&inputs);
 
 		graphics.clearScreen();
 		graphics.renderGameObjects(intoTheNeverland.getGameObjects(),intoTheNeverland.getTimeBetweenFrames());
 		graphics.rendererPresent();
+
+		if (intoTheNeverland.returnGameOver()) {
+			break;
+		}
+		
 	}
 	
 	return 0;

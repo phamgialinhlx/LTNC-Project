@@ -2,16 +2,9 @@
 
 
 backGround::backGround(double vX, double vY, double x, double y, double width, double height, std::vector<GameObjects*>* gameObjects)
-                      :GameObjects(x, y, width, height) {
+                      :GameObjects(x, y, width, height, width, height) {
     this->vX = vX;
     this->vY = vY;
-    
-    this->x = x;
-    this->y = y;
-
-
-    this->width = width;
-    this->height = height;
     this->gameObjects = gameObjects;
 }
 
@@ -47,13 +40,6 @@ void backGround::update(double timeBetweenFrames, Inputs *inputs) {
     }
 }
 
-int backGround::getWidth() {
-    return width;
-}
-
-int backGround::getHeight() {
-    return height;
-}
 
 bool backGround::isAlive() {
     return true;
@@ -61,4 +47,8 @@ bool backGround::isAlive() {
 
 int backGround::getID() {
     return 0;
+}
+
+void backGround::die() {
+
 }
