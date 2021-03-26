@@ -26,7 +26,8 @@ public:
 	bool initSDL();
 
 	void clearScreen();
-	void renderGameObjects(std::vector<GameObjects*>* gameObjects, double timeBetweenFrames);
+	void renderGameObjects(std::vector<GameObjects*>* gameObjects, Clock *clock);
+	void renderTransparentBlackBG();
 	void rendererPresent();
 	int getScreenWidth();
 	int getScreenHeight();

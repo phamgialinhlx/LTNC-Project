@@ -3,6 +3,8 @@
 #include "Background.h"
 #include "Threat.h"
 #include <iostream>
+#include "Button.h"
+
 
 bool overlay(GameObjects* gameObject1, GameObjects* gameObject2) {
     bool collidsionOnAxisX = false;
@@ -33,6 +35,8 @@ theGame::theGame()
     gameOver = false;
     gameObjects.push_back(new backGround(100 , 0, 0, 0, 900, 400, &gameObjects));
     gameObjects.push_back(new character(0, 200, 200, 200, 30, 50, 900, 400, &gameObjects));
+    button = new Button(&gameObjects);
+    gameObjects.push_back(button);
 }
 
 theGame::~theGame()
@@ -50,47 +54,68 @@ std::vector<GameObjects*> *theGame::getGameObjects(){
     return &gameObjects;
 }
 
-double theGame::getTimeBetweenFrames() {
-    return clock.getTimeBetweenFrames();
-}
+void theGame::update(Inputs *inputs, Clock *clock) {
 
-void theGame::update(Inputs *inputs) {
 
-    clock.tick();
+    if (!clock->pause && clock->start) {
+        threats->createThreats(&threatCoolDown);
 
-    
-    threats->createThreats(&threatCoolDown);
+        if (threatCoolDown > 0) {
+            threatCoolDown -= clock->getTimeBetweenFrames();
+            if (threatCoolDown < 0) {
+                threatCoolDown = 0;
+            }
+        }
 
-    if (threatCoolDown > 0) {
-        threatCoolDown -= clock.getTimeBetweenFrames();
-        if (threatCoolDown < 0) {
-            threatCoolDown = 0;
+        for (int i = 0; i < gameObjects.size(); i++) {
+            gameObjects[i]->update(clock->getTimeBetweenFrames(), inputs);
+             
+        }
+
+        checkCollisions();
+
+        for (int i = 0; i < gameObjects.size(); i++) {
+            if (!gameObjects[i]->isAlive()) {
+                delete gameObjects[i];
+                gameObjects[i] = NULL;
+                gameObjects.erase(gameObjects.begin() + i);
+                i -= 1;
+            }
+        }
+        /* std::cout << "  [TheGame] pause: " << std::boolalpha << pause << std::endl;
+            << "  [TheGame] clickCoolDown: " << clickCoolDown << std::endl
+            << "  [TheGame] settingButton -> isClicked():" << settingButton->isClicked() << std::endl;*/
+        
+        if (button->setting) {
+            clock->pause = true;
+        }
+        //std::cout << "  [TheGame] pause: " << std::boolalpha << pause << std::endl;
+    }
+    else {
+        //std::cout << "  [TheGame] pause: " << std::boolalpha << pause << std::endl;
+        if (inputs->isKeyDown(SDL_SCANCODE_SPACE) && !clock->start) {
+            clock->start = true;
+            clock->pause = false;
+        }
+        
+
+        button->update(clock->getTimeBetweenFrames(), inputs);
+        if (!button->setting) {
+            clock->pause = false;
         }
     }
-
-    for (int i = 0; i < gameObjects.size(); i++) {
-        gameObjects[i]->update(clock.getTimeBetweenFrames(), inputs);
-    }
-    
-    checkCollisions();
-    
-    for (int i = 0; i < gameObjects.size(); i++) {
-        if (!gameObjects[i]->isAlive()) {
-            delete gameObjects[i];
-            gameObjects[i] = NULL;
-            gameObjects.erase(gameObjects.begin() + i);
-            i -= 1;
-        }
-    }
-
 }
 
 void theGame::checkCollisions() {
-    for (int i = 2; i < gameObjects.size(); i++) {
-        if (gameObjects[i]->getID() == 2) {
-            if (overlay(gameObjects[1], gameObjects[i])) {
-                gameObjects[1]->die();
-                gameOver = true;
+    for (int i = 1; i < gameObjects.size(); i++) {
+        for (int j = 1; j < gameObjects.size(); j++) {
+            if (i != j) {
+                if (gameObjects[i]->getID() == 1 && gameObjects[j]->getID() == 2) {
+                    if (overlay(gameObjects[i], gameObjects[j])) {
+                        gameObjects[i]->die();
+                        gameOver = true;
+                    }
+                }
             }
         }
     }
@@ -100,3 +125,4 @@ void theGame::checkCollisions() {
 bool theGame::returnGameOver() {
     return gameOver;
 }
+

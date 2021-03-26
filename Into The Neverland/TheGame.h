@@ -15,23 +15,29 @@
 
 class GameObjects;
 class Threat;
+class Button;
 
 class theGame
 {
 private:
-	Clock clock;
-	Threat *threats;
+	
+	Threat* threats;
+	Button *button;
 	double threatCoolDown;
+	double clickCoolDown;
 	bool gameOver;
 	std::vector <GameObjects*> gameObjects;
+
+	//void renderTransparentBlackBG(SDL_Renderer* renderer, Resources* resources);
 
 public:
 	theGame();
 	~theGame();
 
 	std::vector<GameObjects*> *getGameObjects();
-	void update(Inputs *inputs);
-	double getTimeBetweenFrames();
+	void update(Inputs *inputs, Clock *clock);
+	//double getTimeBetweenFrames();
+	//void startScreen();
 	void checkCollisions();
 	bool returnGameOver();
 };

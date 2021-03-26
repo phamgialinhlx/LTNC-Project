@@ -6,7 +6,8 @@
 int main(int argc, char* argv[])
 {
 	srand(time(NULL));
-
+	
+	Clock clock;
 	Inputs inputs;
 	Graphics graphics;
 	theGame intoTheNeverland;
@@ -15,14 +16,15 @@ int main(int argc, char* argv[])
 	SDL_Event e;
 	while (loop) {
 		
+		clock.tick();
 		
 		inputs.update();
 		loop = !inputs.getQuit();
 		
-		intoTheNeverland.update(&inputs);
+		intoTheNeverland.update(&inputs, &clock);
 
 		graphics.clearScreen();
-		graphics.renderGameObjects(intoTheNeverland.getGameObjects(),intoTheNeverland.getTimeBetweenFrames());
+		graphics.renderGameObjects(intoTheNeverland.getGameObjects(),&clock);
 		graphics.rendererPresent();
 
 		if (intoTheNeverland.returnGameOver()) {

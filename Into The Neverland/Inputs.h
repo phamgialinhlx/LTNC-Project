@@ -11,7 +11,7 @@ class Inputs {
 	int mouseY;
 	const Uint8* keyStates;
 
-	
+	bool isClicked;
 
 public:
 
@@ -19,8 +19,10 @@ public:
 	void update();
 	bool checkForQuit(SDL_Event event);
 	bool getQuit();
+	int getMouseX();
+	int getMouseY();
 	bool isKeyDown(int key);
-
+	bool click();
 };
 
 #endif // !INPUTS_H

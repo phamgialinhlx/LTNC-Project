@@ -8,9 +8,9 @@ Wall::Wall(double velocity, double x, double y, double width, double height,
 	alive = true;
 	this->gameObjects = gameObjects;
 }
-void Wall::render(SDL_Renderer* renderer, Resources* resources, double timeBetweenFrames) {
+void Wall::render(SDL_Renderer* renderer, Resources* resources, Clock* clock) {
 	SDL_Texture* texture;
-	texture = resources->getTexture("wall");
+	texture = resources->getTexture("wall", 0);
 
 	SDL_Rect dst = {
 		x,

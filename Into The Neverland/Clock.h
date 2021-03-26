@@ -7,8 +7,12 @@ class Clock {
 
 	unsigned int lastTime;
 	double timeBetweenFrames;
+	
 
 public:
+
+	bool pause;
+	bool start;
 
 	Clock();
 	void reset();

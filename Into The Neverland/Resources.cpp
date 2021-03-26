@@ -22,18 +22,33 @@ void Resources::loadTexture(SDL_Texture **texture, std::string path) {
 }   
 
 void Resources::loadResources() {
-    loadTexture(&texture["background"], "background.png");
-    loadTexture(&texture["character"], "character.png");
-    loadTexture(&texture["wall"], "wall.png");
+    loadTexture(&texture["background"][0], "background.png");
+
+    loadTexture(&texture["character"][0], "character.png");
+    loadTexture(&texture["character"][1], "red.png");
+    loadTexture(&texture["character"][2], "yellow.png");
+    loadTexture(&texture["character"][3], "green.png");
+    loadTexture(&texture["character"][4], "blue.png");
+    loadTexture(&texture["character"][5], "purple.png");
+    
+    loadTexture(&texture["wall"][0], "wall.png");
+    loadTexture(&texture["setting_button"][0], "setting_button.png");
+    loadTexture(&texture["resume_button"][0], "resume.png");
+    loadTexture(&texture["black"][0], "black.png");
 }
 
-SDL_Texture* Resources::getTexture(std::string path) {
-    return texture[path];
+SDL_Texture* Resources::getTexture(std::string path, int frame) {
+    return texture[path][frame];
 }
 
 Resources::~Resources() {
-    std::map<std::string, SDL_Texture*> ::iterator index;
+    std::map<std::string, std::map<int, SDL_Texture*>> ::iterator index;
     for (index = texture.begin(); index != texture.end(); index++) {
-        SDL_DestroyTexture(index->second);
+        std::map<int, SDL_Texture*>::iterator frame;
+        for (frame = index->second.begin(); frame != index->second.end(); frame++) {
+            //SDL_DestroyTexture(frame->second);
+            SDL_DestroyTexture(frame->second);
+        }
     }
+        
 }

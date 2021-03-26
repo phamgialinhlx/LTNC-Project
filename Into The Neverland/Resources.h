@@ -13,13 +13,13 @@ class Resources {
 private:
 	SDL_Renderer* renderer;
 	SDL_Texture* background;
-	std::map<std::string, SDL_Texture*> texture;
+	std::map<std::string, std::map<int, SDL_Texture*> > texture;
 public:
 	Resources(SDL_Renderer* renderer);
 	~Resources();
 	void loadResources();
 	void loadTexture(SDL_Texture** texture, std::string filename);
-	SDL_Texture* getTexture(std::string path);
+	SDL_Texture* getTexture(std::string path, int frame);
 };
 
 #endif

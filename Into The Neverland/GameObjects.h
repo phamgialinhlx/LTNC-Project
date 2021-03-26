@@ -8,6 +8,7 @@
 #include "TheGame.h"
 #include "Resources.h"
 #include "Inputs.h"
+#include "Clock.h"
 
 // ID BACKGROUND: 0
 // ID CHARACTER: 1
@@ -31,7 +32,7 @@ public:
 	double getWidth();
 	double getHeight();
 
-	virtual void render(SDL_Renderer* renderer, Resources* resources, double timeBetweenFrames) = 0;
+	virtual void render(SDL_Renderer* renderer, Resources* resources, Clock* clock) = 0;
 	virtual void update(double timeBetweenFrames, Inputs *inputs) = 0;
 	virtual bool isAlive() = 0;
 	virtual int getID() = 0;

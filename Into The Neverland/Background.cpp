@@ -9,9 +9,9 @@ backGround::backGround(double vX, double vY, double x, double y, double width, d
 }
 
 
-void backGround::render(SDL_Renderer* renderer, Resources* resources, double timeBetweenFrames) {
+void backGround::render(SDL_Renderer* renderer, Resources* resources, Clock* clock) {
     SDL_Texture* texture;
-    texture = resources->getTexture("background");
+    texture = resources->getTexture("background", 0);
 
     SDL_Rect dst = {
         x,

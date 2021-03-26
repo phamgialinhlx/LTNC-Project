@@ -25,6 +25,7 @@ bool Graphics::initSDL()
     }
     return true;
 }
+
 Graphics::Graphics()
 {
     initSDL();
@@ -39,9 +40,14 @@ Graphics::~Graphics()
     delete resources;
 }
 
-void Graphics::renderGameObjects(std::vector<GameObjects*>* gameObjects, double timeBetweenFrames) {
+void Graphics::renderGameObjects(std::vector<GameObjects*>* gameObjects, Clock *clock) {
+    
     for (int i = 0; i < gameObjects->size(); i++) {
-        (*gameObjects)[i]->render(renderer, resources, timeBetweenFrames);
+        (*gameObjects)[i]->render(renderer, resources, clock);
+    }
+
+    if (!clock->start) {
+        renderTransparentBlackBG();
     }
 }
 
@@ -62,3 +68,17 @@ int Graphics::getScreenWidth() {
 int Graphics::getScreenHeight() {
     return screenHeight;
 }
+
+void Graphics::renderTransparentBlackBG() {
+    SDL_Texture* texture;
+    texture = resources->getTexture("black", 0);
+
+
+    SDL_Rect dst = { 0, 0, 900, 400 };
+
+    SDL_SetTextureAlphaMod(texture, 60);
+
+    SDL_RenderCopyEx(renderer, texture, NULL, &dst, 0,
+        NULL, SDL_FLIP_NONE);
+}
+

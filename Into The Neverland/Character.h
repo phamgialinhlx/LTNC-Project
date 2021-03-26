@@ -16,11 +16,12 @@ private:
 
 	double vX, vY;
 	bool alive;
+	int characterTimer;
 
 public:
 	character(double vX, double vY, double x, double y, double width, double height,
 			  double screenWidth, double screenHeight, std::vector<GameObjects*>* gameObjects);
-	void render(SDL_Renderer* renderer, Resources* resources, double timeBetweenFrames);
+	void render(SDL_Renderer* renderer, Resources* resources, Clock* clock);
 	void update(double timeBetweenFrames, Inputs *inputs);
 	bool isAlive();
 	int getID();
