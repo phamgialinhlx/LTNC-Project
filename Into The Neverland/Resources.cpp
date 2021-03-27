@@ -32,8 +32,13 @@ void Resources::loadResources() {
     loadTexture(&texture["character"][5], "purple.png");
     
     loadTexture(&texture["wall"][0], "wall.png");
+    
     loadTexture(&texture["setting_button"][0], "setting_button.png");
     loadTexture(&texture["resume_button"][0], "resume.png");
+    loadTexture(&texture["quit_button"][0], "quit.png");
+    loadTexture(&texture["retry_button"][0], "retry.png");
+
+
     loadTexture(&texture["black"][0], "black.png");
 }
 

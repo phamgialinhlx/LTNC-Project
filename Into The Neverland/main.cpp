@@ -27,7 +27,7 @@ int main(int argc, char* argv[])
 		graphics.renderGameObjects(intoTheNeverland.getGameObjects(),&clock);
 		graphics.rendererPresent();
 
-		if (intoTheNeverland.returnGameOver()) {
+		if (intoTheNeverland.returnQuit()) {
 			break;
 		}
 		

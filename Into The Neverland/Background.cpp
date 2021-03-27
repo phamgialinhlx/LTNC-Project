@@ -32,8 +32,8 @@ void backGround::render(SDL_Renderer* renderer, Resources* resources, Clock* clo
     
 }
 
-void backGround::update(double timeBetweenFrames, Inputs *inputs) {
-    x -= vX*timeBetweenFrames;
+void backGround::update(Clock* clock, Inputs *inputs) {
+    x -= vX * clock->getTimeBetweenFrames();
     if (x < -width)
     {
         x = 0;

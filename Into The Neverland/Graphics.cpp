@@ -42,9 +42,18 @@ Graphics::~Graphics()
 
 void Graphics::renderGameObjects(std::vector<GameObjects*>* gameObjects, Clock *clock) {
     
+
+    int temp = -1;
     for (int i = 0; i < gameObjects->size(); i++) {
-        (*gameObjects)[i]->render(renderer, resources, clock);
+        if ((*gameObjects)[i]->getID() != 4) {
+            (*gameObjects)[i]->render(renderer, resources, clock);
+        }
+        else {
+            temp = i;
+        }
     }
+    (*gameObjects)[temp]->render(renderer, resources, clock);
+
 
     if (!clock->start) {
         renderTransparentBlackBG();

@@ -24,8 +24,8 @@ void Wall::render(SDL_Renderer* renderer, Resources* resources, Clock* clock) {
 }
 
 
-void Wall::update(double timeBetweenFrames, Inputs* inputs) {
-	x -= velocity * timeBetweenFrames;
+void Wall::update(Clock* clock, Inputs* inputs) {
+	x -= velocity * clock->getTimeBetweenFrames();
 	if (x + width < 0) {
 		alive = false;
 	}

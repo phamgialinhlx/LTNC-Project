@@ -33,6 +33,7 @@ theGame::theGame()
     threats = new Threat(&gameObjects);
     threatCoolDown = 0;
     gameOver = false;
+    quit = false;
     gameObjects.push_back(new backGround(100 , 0, 0, 0, 900, 400, &gameObjects));
     gameObjects.push_back(new character(0, 200, 200, 200, 30, 50, 900, 400, &gameObjects));
     button = new Button(&gameObjects);
@@ -56,6 +57,9 @@ std::vector<GameObjects*> *theGame::getGameObjects(){
 
 void theGame::update(Inputs *inputs, Clock *clock) {
 
+    if (button->retry || gameOver) {
+        restart();
+    }
 
     if (!clock->pause && clock->start) {
         threats->createThreats(&threatCoolDown);
@@ -68,9 +72,9 @@ void theGame::update(Inputs *inputs, Clock *clock) {
         }
 
         for (int i = 0; i < gameObjects.size(); i++) {
-            gameObjects[i]->update(clock->getTimeBetweenFrames(), inputs);
-             
+            gameObjects[i]->update(clock, inputs);
         }
+
 
         checkCollisions();
 
@@ -93,17 +97,21 @@ void theGame::update(Inputs *inputs, Clock *clock) {
     }
     else {
         //std::cout << "  [TheGame] pause: " << std::boolalpha << pause << std::endl;
+        
+
         if (inputs->isKeyDown(SDL_SCANCODE_SPACE) && !clock->start) {
             clock->start = true;
             clock->pause = false;
         }
         
-
-        button->update(clock->getTimeBetweenFrames(), inputs);
+        button->update(clock, inputs);
         if (!button->setting) {
             clock->pause = false;
         }
+
     }
+
+    quit = button->quit;
 }
 
 void theGame::checkCollisions() {
@@ -121,8 +129,28 @@ void theGame::checkCollisions() {
     }
 }
 
+void theGame::restart() {
 
-bool theGame::returnGameOver() {
-    return gameOver;
+    //delete all game objects
+
+    for (int i = 0; i < gameObjects.size(); i++) {
+        
+            delete gameObjects[i];
+            gameObjects[i] = NULL;
+            gameObjects.erase(gameObjects.begin() + i);
+            i -= 1;
+        
+    }
+
+    //create new game objects
+    gameOver = false;
+    gameObjects.push_back(new backGround(100, 0, 0, 0, 900, 400, &gameObjects));
+    gameObjects.push_back(new character(0, 200, 200, 200, 30, 50, 900, 400, &gameObjects));
+    button = new Button(&gameObjects);
+    gameObjects.push_back(button);
+}
+
+bool theGame::returnQuit() {
+    return quit;
 }
 

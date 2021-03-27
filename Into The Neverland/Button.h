@@ -12,20 +12,21 @@ class Button : public GameObjects
 {
 private:
 	std::vector<GameObjects*>* gameObjects;
-	SDL_Rect settingButton, resumeButton;
+	SDL_Rect settingButton, resumeButton, retryButton, quitButton;
 
-	void renderSettingButton(SDL_Renderer* renderer, Resources* resources, Clock* clock);
-	void renderResumeButton(SDL_Renderer* renderer, Resources* resources, Clock* clock);
+	void renderButton(SDL_Renderer* renderer, Resources* resources, Clock* clock, std::string textureName, const SDL_Rect* dst);
 
 public:
 
 	bool setting;
-	bool resume;
+	bool retry;
+	bool quit;
 
 	Button(std::vector<GameObjects*>* gameObjects);
 	void render(SDL_Renderer* renderer, Resources* resources, Clock* clock);
-	void update(double timeBetweenFrames, Inputs* inputs);
+	void update(Clock* clock, Inputs* inputs);
 
+	void renderTransparentBlackBG(SDL_Renderer* renderer, Resources* resources);
 	bool isClicked();
 
 	bool isAlive();

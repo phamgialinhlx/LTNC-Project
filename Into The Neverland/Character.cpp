@@ -57,14 +57,15 @@ bool character::isAlive() {
 	return alive;
 }
 
-void character::update(double timeBetweenFrames, Inputs *inputs) {
+void character::update(Clock* clock, Inputs *inputs) {
 
 	if (inputs->isKeyDown(SDL_SCANCODE_SPACE)){
-		
-		y -= timeBetweenFrames * vY;
+		//vY += 50;
+		y -= clock->getTimeBetweenFrames() * vY;
 	}
 	else {
-		y += timeBetweenFrames * vY;
+		//vY = 200;
+		y += clock->getTimeBetweenFrames() * vY;
 	}
 	
 	if (y + height > screenHeight - 25) {

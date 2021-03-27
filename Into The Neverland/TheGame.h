@@ -25,7 +25,7 @@ private:
 	Button *button;
 	double threatCoolDown;
 	double clickCoolDown;
-	bool gameOver;
+	bool gameOver, quit;
 	std::vector <GameObjects*> gameObjects;
 
 	//void renderTransparentBlackBG(SDL_Renderer* renderer, Resources* resources);
@@ -39,7 +39,8 @@ public:
 	//double getTimeBetweenFrames();
 	//void startScreen();
 	void checkCollisions();
-	bool returnGameOver();
+	void restart();
+	bool returnQuit();
 };
 
 
