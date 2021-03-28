@@ -151,6 +151,7 @@
     <ClCompile Include="Inputs.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Resources.cpp" />
+    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="TheGame.cpp" />
     <ClCompile Include="Threat.cpp" />
     <ClCompile Include="Wall.cpp" />
@@ -164,6 +165,7 @@
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Inputs.h" />
     <ClInclude Include="Resources.h" />
+    <ClInclude Include="Sound.h" />
     <ClInclude Include="TheGame.h" />
     <ClInclude Include="Threat.h" />
     <ClInclude Include="Wall.h" />

@@ -11,7 +11,7 @@
 #include "GameObjects.h"
 #include "Inputs.h"
 #include "Clock.h"
-
+#include "Sound.h"
 
 class GameObjects;
 class Threat;
@@ -35,7 +35,7 @@ public:
 	~theGame();
 
 	std::vector<GameObjects*> *getGameObjects();
-	void update(Inputs *inputs, Clock *clock);
+	void update(Inputs *inputs, Clock *clock, Sound *sound);
 	//double getTimeBetweenFrames();
 	//void startScreen();
 	void checkCollisions();

@@ -55,13 +55,17 @@ std::vector<GameObjects*> *theGame::getGameObjects(){
     return &gameObjects;
 }
 
-void theGame::update(Inputs *inputs, Clock *clock) {
+void theGame::update(Inputs *inputs, Clock *clock, Sound *sound) {
 
     if (button->retry || gameOver) {
         restart();
+        sound->pauseMusic();
+        sound->stopMusic();
+        sound->playMusic();
     }
 
     if (!clock->pause && clock->start) {
+
         threats->createThreats(&threatCoolDown);
 
         if (threatCoolDown > 0) {
@@ -92,6 +96,7 @@ void theGame::update(Inputs *inputs, Clock *clock) {
         
         if (button->setting) {
             clock->pause = true;
+            sound->pauseMusic();
         }
         //std::cout << "  [TheGame] pause: " << std::boolalpha << pause << std::endl;
     }
@@ -102,11 +107,14 @@ void theGame::update(Inputs *inputs, Clock *clock) {
         if (inputs->isKeyDown(SDL_SCANCODE_SPACE) && !clock->start) {
             clock->start = true;
             clock->pause = false;
+            sound->playMusic();
+            //sound->resumeMusic();
         }
         
         button->update(clock, inputs);
         if (!button->setting) {
             clock->pause = false;
+            sound->resumeMusic();
         }
 
     }

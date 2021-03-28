@@ -7,6 +7,7 @@ int main(int argc, char* argv[])
 {
 	srand(time(NULL));
 	
+	Sound sound;
 	Clock clock;
 	Inputs inputs;
 	Graphics graphics;
@@ -21,7 +22,7 @@ int main(int argc, char* argv[])
 		inputs.update();
 		loop = !inputs.getQuit();
 		
-		intoTheNeverland.update(&inputs, &clock);
+		intoTheNeverland.update(&inputs, &clock, &sound);
 
 		graphics.clearScreen();
 		graphics.renderGameObjects(intoTheNeverland.getGameObjects(),&clock);
