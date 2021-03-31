@@ -13,6 +13,7 @@
 // ID BACKGROUND: 0
 // ID CHARACTER: 1
 // ID THREAT: 2
+// ID Text: 3
 // ID BUTTON: 4
 
 class theGame;

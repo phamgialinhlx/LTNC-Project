@@ -25,7 +25,6 @@ bool Sound::loadMedia() {
 	printf("Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError());
 		success = false;
 	}
-
 	return success;
 }
 
@@ -42,6 +41,7 @@ void Sound::pauseMusic() {
 	//If the music is playing
 	if (Mix_PausedMusic() != 1)
 	{
+		
 		//Pause the music
 		Mix_PauseMusic();
 	}

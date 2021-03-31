@@ -3,6 +3,7 @@
 
 backGround::backGround(double vX, double vY, double x, double y, double width, double height, std::vector<GameObjects*>* gameObjects)
                       :GameObjects(x, y, width, height, width, height) {
+    //std::cout << x << "_" << std::endl;
     this->vX = vX;
     this->vY = vY;
     this->gameObjects = gameObjects;
@@ -10,9 +11,9 @@ backGround::backGround(double vX, double vY, double x, double y, double width, d
 
 
 void backGround::render(SDL_Renderer* renderer, Resources* resources, Clock* clock) {
+    //std::cout << x << "_" << std::endl;
     SDL_Texture* texture;
     texture = resources->getTexture("background", 0);
-
     SDL_Rect dst = {
         x,
         y,  

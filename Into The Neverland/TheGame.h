@@ -13,9 +13,12 @@
 #include "Clock.h"
 #include "Sound.h"
 
+
 class GameObjects;
 class Threat;
 class Button;
+class Score;
+class GraphicSupport;
 
 class theGame
 {
@@ -23,21 +26,22 @@ private:
 	
 	Threat* threats;
 	Button *button;
+	Score* score;
+	GraphicSupport* graphicSupport;
 	double threatCoolDown;
 	double clickCoolDown;
+	int typeOfAnimation;
 	bool gameOver, quit;
 	std::vector <GameObjects*> gameObjects;
 
 	//void renderTransparentBlackBG(SDL_Renderer* renderer, Resources* resources);
 
 public:
-	theGame();
+	theGame(GraphicSupport* graphicSupport);
 	~theGame();
 
 	std::vector<GameObjects*> *getGameObjects();
 	void update(Inputs *inputs, Clock *clock, Sound *sound);
-	//double getTimeBetweenFrames();
-	//void startScreen();
 	void checkCollisions();
 	void restart();
 	bool returnQuit();

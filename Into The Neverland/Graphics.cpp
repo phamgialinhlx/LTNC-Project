@@ -1,4 +1,5 @@
 #include "Graphics.h"
+#include "GraphicSupport.h"
 
 const int Graphics::screenWidth = 900, Graphics::screenHeight = 400;
 const std::string Graphics::windowTitle = "Into The Neverland: 9 + 1 = 11";
@@ -31,6 +32,7 @@ Graphics::Graphics()
     initSDL();
     resources = new Resources(renderer);
     resources->loadResources();
+    graphicSupport = new GraphicSupport(resources, renderer);
 }
 
 Graphics::~Graphics()
@@ -38,26 +40,36 @@ Graphics::~Graphics()
     SDL_DestroyWindow(screenWindow);
     SDL_DestroyRenderer(renderer);
     delete resources;
+    resources = NULL;
+
+    delete graphicSupport;
+    graphicSupport = NULL;
 }
 
 void Graphics::renderGameObjects(std::vector<GameObjects*>* gameObjects, Clock *clock) {
     
 
-    int temp = -1;
+    int buttonID = -1;
     for (int i = 0; i < gameObjects->size(); i++) {
-        if ((*gameObjects)[i]->getID() != 4) {
-            (*gameObjects)[i]->render(renderer, resources, clock);
+        if ((*gameObjects)[i]->getID() == 4) {
+            buttonID = i;
+        }
+        else if (!clock->start){
+            if ((*gameObjects)[i]->getID() == 0) {
+                (*gameObjects)[i]->render(renderer, resources, clock);
+            }
         }
         else {
-            temp = i;
+            (*gameObjects)[i]->render(renderer, resources, clock);
         }
     }
-    (*gameObjects)[temp]->render(renderer, resources, clock);
-
-
+    (*gameObjects)[buttonID]->render(renderer, resources, clock);
     if (!clock->start) {
-        renderTransparentBlackBG();
+        graphicSupport->renderTransparentBlackBG();
+        graphicSupport->renderNote();
     }
+
+    
 }
 
 void Graphics::clearScreen() {
@@ -78,16 +90,13 @@ int Graphics::getScreenHeight() {
     return screenHeight;
 }
 
-void Graphics::renderTransparentBlackBG() {
-    SDL_Texture* texture;
-    texture = resources->getTexture("black", 0);
+void Graphics::renderAnimation() {
+    if (!graphicSupport->finish) {
+        graphicSupport->render();
+    }
+}
 
-
-    SDL_Rect dst = { 0, 0, 900, 400 };
-
-    SDL_SetTextureAlphaMod(texture, 60);
-
-    SDL_RenderCopyEx(renderer, texture, NULL, &dst, 0,
-        NULL, SDL_FLIP_NONE);
+GraphicSupport* Graphics::getGraphicSupport() {
+    return graphicSupport;
 }
 

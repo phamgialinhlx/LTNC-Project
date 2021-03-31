@@ -13,6 +13,8 @@ public:
 
 	bool pause;
 	bool start;
+	bool animationRunning;
+	double characterLifeTime;
 
 	Clock();
 	void reset();

@@ -4,8 +4,10 @@
 
 Clock::Clock() {
     lastTime = SDL_GetTicks();
+    characterLifeTime = 0;
     pause = true;
     start = false;
+    animationRunning = false;
 }
 
 void Clock::reset() {

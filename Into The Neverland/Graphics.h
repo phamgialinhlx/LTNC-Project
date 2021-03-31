@@ -8,7 +8,7 @@
 #include "Resources.h"
 #include "GameObjects.h"
 
-
+class GraphicSupport;
 
 class Graphics {
 private:
@@ -17,6 +17,7 @@ private:
 	Resources* resources;
 	SDL_Window* screenWindow;
 	SDL_Renderer* renderer;
+	GraphicSupport* graphicSupport;
 
 
 public:
@@ -27,10 +28,12 @@ public:
 
 	void clearScreen();
 	void renderGameObjects(std::vector<GameObjects*>* gameObjects, Clock *clock);
-	void renderTransparentBlackBG();
+	void renderAnimation();
 	void rendererPresent();
 	int getScreenWidth();
 	int getScreenHeight();
+
+	GraphicSupport* getGraphicSupport();
 };
 
 

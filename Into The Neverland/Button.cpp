@@ -77,6 +77,7 @@ void Button::update(Clock* clock, Inputs* inputs) {
 	if (insideButton(&settingButton, inputs)){
 		if (inputs->click() && !setting) {
 			setting = true;
+			clock->pause = true;
 			//std::cout << "[Button]: clicked" << std::boolalpha << " " << clicked << std::endl;
 		}
 		else {
@@ -87,6 +88,7 @@ void Button::update(Clock* clock, Inputs* inputs) {
 	if (insideButton(&resumeButton, inputs)) {
 		if (inputs->click() && setting) {
 			setting = false;
+			clock->pause = false;
 			//std::cout << "[Button]: clicked" << std::boolalpha << " " << clicked << std::endl;
 		}
 		else {
@@ -99,6 +101,8 @@ void Button::update(Clock* clock, Inputs* inputs) {
 		if (inputs->click() && setting) {
 			setting = false;
 			retry = true;
+			clock->pause = false;
+			clock->characterLifeTime = 0;
 		}
 		else {
 

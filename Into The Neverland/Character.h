@@ -15,7 +15,7 @@ private:
 	std::vector<GameObjects*>* gameObjects;
 
 	double vX, vY;
-	bool alive;
+	bool jump, alive;
 	int characterTimer;
 
 public:
