@@ -1,10 +1,10 @@
 #include "Wall.h"
 
-Wall::Wall(double velocity, double x, double y, double width, double height,
-	double screenWidth, double screenHeight, std::vector<GameObjects*>* gameObjects) 
-	:GameObjects(x, y, width, height, screenWidth, screenHeight)
+Wall::Wall(double x, double y, double width, double height, double screenWidth, 
+		   double screenHeight, SDL_Rect hitbox, std::vector<GameObjects*>* gameObjects) 
+	:GameObjects(x, y, width, height, screenWidth, screenHeight, hitbox)
 {
-	this->velocity = velocity;
+	
 	alive = true;
 	this->gameObjects = gameObjects;
 }
@@ -24,8 +24,9 @@ void Wall::render(SDL_Renderer* renderer, Resources* resources, Clock* clock) {
 }
 
 
-void Wall::update(Clock* clock, Inputs* inputs) {
-	x -= velocity * clock->getTimeBetweenFrames();
+void Wall::update(Clock* clock, Inputs* inputs, double velocity) {
+	x -= velocity;
+	hitbox.x -= velocity;
 	if (x + width < 0) {
 		alive = false;
 	}

@@ -1,19 +1,18 @@
 #include "Text.h"
 
 
-Text::Text(int x, int y, std::vector<GameObjects*>* gameObjects):GameObjects(x, y, width, height, screenWidth, screenHeight)
+Text::Text(int x, int y, std::vector<GameObjects*>* gameObjects):GameObjects(x, y, width, height, screenWidth, screenHeight, hitbox)
 {
     this->gameObjects = gameObjects;
 }
 
 void Text::render(SDL_Renderer* renderer, Resources* resources, Clock* clock) {
     renderScore(renderer, resources, clock);
-    //renderNote(renderer, resources, clock);
 }
 
 void Text::update(Clock* clock, Inputs* inputs) {
     if (!clock->pause) {
-        characterLifeTime += clock->getTimeBetweenFrames() * 5;
+        characterLifeTime += clock->deltaT;
         //std::cout << "[Text] characterLifeTime:" << characterLifeTime << std::endl;
     }
 

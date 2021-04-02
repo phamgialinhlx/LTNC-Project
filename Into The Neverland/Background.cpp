@@ -1,11 +1,9 @@
 #include "Background.h"
 
 
-backGround::backGround(double vX, double vY, double x, double y, double width, double height, std::vector<GameObjects*>* gameObjects)
-                      :GameObjects(x, y, width, height, width, height) {
+backGround::backGround(double x, double y, double width, double height, std::vector<GameObjects*>* gameObjects)
+                      :GameObjects(x, y, width, height, width, height, hitbox) {
     //std::cout << x << "_" << std::endl;
-    this->vX = vX;
-    this->vY = vY;
     this->gameObjects = gameObjects;
 }
 
@@ -33,8 +31,9 @@ void backGround::render(SDL_Renderer* renderer, Resources* resources, Clock* clo
     
 }
 
-void backGround::update(Clock* clock, Inputs *inputs) {
-    x -= vX * clock->getTimeBetweenFrames();
+void backGround::update(Clock* clock, Inputs *inputs, double velocity) {
+    //std::cout << vX << std::endl;
+    x -= velocity;
     if (x < -width)
     {
         x = 0;

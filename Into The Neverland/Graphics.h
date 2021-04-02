@@ -12,8 +12,7 @@ class GraphicSupport;
 
 class Graphics {
 private:
-	static const int screenWidth, screenHeight;
-	static const std::string windowTitle;
+	
 	Resources* resources;
 	SDL_Window* screenWindow;
 	SDL_Renderer* renderer;
@@ -21,6 +20,9 @@ private:
 
 
 public:
+	const int screenWidth = 900, screenHeight = 400;
+	const std::string windowTitle = "Into The Neverland: 9 + 1 = 11";
+
 	Graphics();
 	~Graphics();
 

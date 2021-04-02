@@ -2,25 +2,24 @@
 #include "Character.h"
 #include "Background.h"
 #include "Threat.h"
-#include "Button.h"
+#include "Menu.h"
 #include "Score.h"
 #include <iostream>
-#include "GraphicSupport.h"
 
 #define START_SCREEN 1
 
 bool overlay(GameObjects* gameObject1, GameObjects* gameObject2) {
     bool collidsionOnAxisX = false;
     bool collidsionOnAxisY = false;
-    double  minX1 = gameObject1->getX(),
-        minY1 = gameObject1->getY(),
-        maxX1 = gameObject1->getWidth() + gameObject1->getX(),
-        maxY1 = gameObject1->getHeight() + gameObject1->getY();
+    double  minX1 = gameObject1->hitbox.x,
+        minY1 = gameObject1->hitbox.y,
+        maxX1 = gameObject1->hitbox.w + gameObject1->hitbox.x,
+        maxY1 = gameObject1->hitbox.h + gameObject1->hitbox.y;
 
-    double  minX2 = gameObject2->getX(),
-        minY2 = gameObject2->getY(),
-        maxX2 = gameObject2->getWidth() + gameObject2->getX(),
-        maxY2 = gameObject2->getHeight() + gameObject2->getY();
+    double  minX2 = gameObject2->hitbox.x,
+        minY2 = gameObject2->hitbox.y,
+        maxX2 = gameObject2->hitbox.w + gameObject2->hitbox.x,
+        maxY2 = gameObject2->hitbox.h + gameObject2->hitbox.y;
     if ((minX2 <= maxX1 && minX2 >= minX1) || (minX1 <= maxX2 && minX1 >= minX2)) {
         collidsionOnAxisX = true;
     }
@@ -31,17 +30,22 @@ bool overlay(GameObjects* gameObject1, GameObjects* gameObject2) {
     return (collidsionOnAxisY && collidsionOnAxisX);
 }
 
-theGame::theGame(GraphicSupport* graphicSupport)
+theGame::theGame(double screenWidth, double screenHeight)
 {
-    this->graphicSupport = graphicSupport;
+    this->screenWidth = screenWidth;
+    this->screenHeight = screenHeight;
+    
     threats = new Threat(&gameObjects);
     threatCoolDown = 0;
     gameOver = false;
+    groundBaseSpeed = 7;
     quit = false;
-    gameObjects.push_back(new backGround(100 , 0, 0, 0, 900, 400, &gameObjects));
-    gameObjects.push_back(new character(0, 200, 200, 625, 75, 100, 900, 400, &gameObjects));
-    button = new Button(&gameObjects);
-    gameObjects.push_back(button);
+    speedFix = 0;
+    gameObjects.push_back(new backGround(0, 0, screenWidth, screenHeight, &gameObjects));
+    SDL_Rect characterHitbox {220, 275, 65, 100};
+    gameObjects.push_back(new character(200, 275, 85, 100, screenWidth, screenHeight, characterHitbox,&gameObjects));
+    menu = new Menu(&gameObjects);
+    gameObjects.push_back(menu);
     score = new Score(30, 30, &gameObjects);
     gameObjects.push_back(score);
 }
@@ -64,13 +68,13 @@ std::vector<GameObjects*> *theGame::getGameObjects(){
 void theGame::update(Inputs *inputs, Clock *clock, Sound *sound) {
     
     
-    if (clock->animationRunning) {
+    /*if (clock->animationRunning) {
         graphicSupport->update(typeOfAnimation);
         clock->animationRunning = !graphicSupport->finish;
 
     }
-    else {        
-        if (gameOver || button->retry) {
+    else {  */      
+        if (gameOver || menu->retry) {
             sound->pauseMusic();
             sound->stopMusic();
             restart();
@@ -84,14 +88,14 @@ void theGame::update(Inputs *inputs, Clock *clock, Sound *sound) {
             threats->createThreats(&threatCoolDown);
 
             if (threatCoolDown > 0) {
-                threatCoolDown -= clock->getTimeBetweenFrames();
+                threatCoolDown -= clock->deltaT;
                 if (threatCoolDown < 0) {
                     threatCoolDown = 0;
                 }
             }
 
             for (int i = 0; i < gameObjects.size(); i++) {
-                gameObjects[i]->update(clock, inputs);
+                gameObjects[i]->update(clock, inputs, (groundBaseSpeed + speedFix) * clock->deltaT);
             }
 
             checkCollisions();
@@ -104,34 +108,30 @@ void theGame::update(Inputs *inputs, Clock *clock, Sound *sound) {
                     i -= 1;
                 }
             }
-            /* std::cout << "  [TheGame] pause: " << std::boolalpha << pause << std::endl;
-                << "  [TheGame] clickCoolDown: " << clickCoolDown << std::endl
-                << "  [TheGame] settingButton -> isClicked():" << settingButton->isClicked() << std::endl;*/
-
-            //std::cout << button->setting << std::endl;
-            if (button->setting) {
+            
+            if (menu->setting) {
                 //std::cout << button->setting << std::endl;
                 sound->pauseMusic();
                 clock->pause = true;
+                menu->menuType = 2;
             }
             //std::cout << "  [TheGame] pause: " << std::boolalpha << pause << std::endl;
         }
         else {
-            //std::cout << "  [TheGame] pause: " << std::boolalpha << pause << std::endl;
-            
-            if (inputs->isKeyDown(SDL_SCANCODE_SPACE) && !clock->start) {
-                clock->start = true;
-                clock->pause = false;
-                clock->animationRunning = true;
-                typeOfAnimation = START_SCREEN;
-                sound->playMusic();
-                //sound->resumeMusic();
+            menu->update(clock, inputs, (groundBaseSpeed + speedFix) * clock->deltaT);
+            if (clock->start) {
+                sound->playMusic(); 
             }
-            button->update(clock, inputs);
         }
 
-        quit = button->quit;
+        quit = menu->quit;
+    //}
+
+    if (speedFix <= 1.3 * groundBaseSpeed && !clock->pause)//speed fix limit
+    {
+        speedFix += 0.0025;
     }
+    //std::cout << (groundBaseSpeed + speedFix) * 1.2 << std::endl;
 }
 
 void theGame::checkCollisions() {
@@ -161,11 +161,14 @@ void theGame::restart() {
         
     }
     //create new game objects
+    speedFix = 0;
     gameOver = false;
-    gameObjects.push_back(new backGround(100, 0, 0, 0, 900, 400, &gameObjects));
-    gameObjects.push_back(new character(0, 0, 200, 325, 75, 100, 900, 400, &gameObjects));
-    button = new Button(&gameObjects);
-    gameObjects.push_back(button);
+    gameObjects.push_back(new backGround(0, 0, screenWidth, screenHeight, &gameObjects));
+    SDL_Rect characterHitbox{ 220, 325, 65, 100 };
+    gameObjects.push_back(new character(200, 275, 85, 100, screenWidth, screenHeight, characterHitbox, &gameObjects));
+    menu = new Menu(&gameObjects);
+    gameObjects.push_back(menu);
+    menu->menuType = 0;
     score = new Score(30, 30, &gameObjects);
     gameObjects.push_back(score);
 }

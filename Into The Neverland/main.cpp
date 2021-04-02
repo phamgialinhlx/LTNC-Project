@@ -3,6 +3,7 @@
 #include "Graphics.h"
 #include "Inputs.h"
 
+
 int main(int argc, char* argv[])
 {
 	//std::cout << "here" << std::endl;
@@ -12,7 +13,7 @@ int main(int argc, char* argv[])
 	Clock clock;
 	Inputs inputs;
 	Graphics graphics;
-	theGame intoTheNeverland(graphics.getGraphicSupport());
+	theGame intoTheNeverland(graphics.screenWidth, graphics.screenHeight);
 	
 	bool loop = true;
 	SDL_Event e;
@@ -27,12 +28,13 @@ int main(int argc, char* argv[])
 
 		graphics.clearScreen();
 		graphics.renderGameObjects(intoTheNeverland.getGameObjects(),&clock);
-		graphics.renderAnimation();
 		graphics.rendererPresent();
 
 		if (intoTheNeverland.returnQuit()) {
 			break;
 		}
+
+		clock.delay();
 		
 	}
 	

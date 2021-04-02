@@ -1,6 +1,7 @@
 #include "GameObjects.h"
 
-GameObjects::GameObjects(double x, double y, double width, double height, double screenWidth, double screenHeight)
+GameObjects::GameObjects(double x, double y, double width, double height, 
+						 double screenWidth, double screenHeight, SDL_Rect hitbox)
 {
 	this->x = x;
 	this->y = y;
@@ -8,6 +9,7 @@ GameObjects::GameObjects(double x, double y, double width, double height, double
 	this->height = height;
 	this->screenWidth = screenWidth;
 	this->screenHeight = screenHeight;
+	this->hitbox = hitbox;
 }
 
 GameObjects::~GameObjects()

@@ -7,9 +7,14 @@ class Clock {
 
 	unsigned int lastTime;
 	double timeBetweenFrames;
-	
+
 
 public:
+
+	const int FPS = 60;
+	const int frameDelay = 1000 / FPS;
+
+	int deltaT;
 
 	bool pause;
 	bool start;
@@ -18,8 +23,8 @@ public:
 
 	Clock();
 	void reset();
-	double getTimeBetweenFrames();
 	void tick();
+	void delay();
 
 };
 

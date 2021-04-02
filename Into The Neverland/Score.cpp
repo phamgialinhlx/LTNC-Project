@@ -1,7 +1,7 @@
 #include "Score.h"
 
 
-Score::Score(int x, int y, std::vector<GameObjects*>* gameObjects) :GameObjects(x, y, width, height, screenWidth, screenHeight)
+Score::Score(int x, int y, std::vector<GameObjects*>* gameObjects) :GameObjects(x, y, width, height, screenWidth, screenHeight, hitbox)
 {
     this->gameObjects = gameObjects;
 }
@@ -29,9 +29,9 @@ void Score::render(SDL_Renderer* renderer, Resources* resources, Clock* clock) {
     SDL_DestroyTexture(texture);
 }
 
-void Score::update(Clock* clock, Inputs* inputs) {
+void Score::update(Clock* clock, Inputs* inputs, double velocity) {
     if (!clock->pause) {
-        characterLifeTime += clock->getTimeBetweenFrames() * 5;
+        characterLifeTime += clock->deltaT / 5.0f;
         //std::cout << "[Text] characterLifeTime:" << characterLifeTime << std::endl;
     }
 

@@ -62,10 +62,11 @@ void Resources::loadResources() {
     loadTexture(&texture["characterJump"][12], "character/jump/jump13.png");
     loadTexture(&texture["characterJump"][13], "character/jump/jump14.png");
     loadTexture(&texture["characterJump"][14], "character/jump/jump15.png");
-    loadTexture(&texture["characterJump"][15], "character/jump/jump16.png");
 
     loadTexture(&texture["wall"][0], "wall.png");
     
+    loadTexture(&texture["menu"][0], "start_screen.png");
+    loadTexture(&texture["start_button"][0], "start_button.png");
     loadTexture(&texture["setting_button"][0], "setting_button.png");
     loadTexture(&texture["resume_button"][0], "resume.png");
     loadTexture(&texture["quit_button"][0], "quit.png");

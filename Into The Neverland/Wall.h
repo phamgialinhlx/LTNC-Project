@@ -15,10 +15,10 @@ private:
 	bool alive;
 
 public:
-	Wall(double velocity, double x, double y, double width, double height,
-		double screenWidth, double screenHeight, std::vector<GameObjects*>* gameObjects);
+	Wall(double x, double y, double width, double height, double screenWidth, 
+		 double screenHeight, SDL_Rect hitbox, std::vector<GameObjects*>* gameObjects);
 	void render(SDL_Renderer* renderer, Resources* resources, Clock* clock);
-	void update(Clock* clock, Inputs* inputs);
+	void update(Clock* clock, Inputs* inputs, double velocity);
 	bool isAlive();
 	int getID();
 	void die();

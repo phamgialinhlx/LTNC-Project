@@ -1,8 +1,4 @@
 #include "Graphics.h"
-#include "GraphicSupport.h"
-
-const int Graphics::screenWidth = 900, Graphics::screenHeight = 400;
-const std::string Graphics::windowTitle = "Into The Neverland: 9 + 1 = 11";
 
 
 bool Graphics::initSDL()
@@ -32,7 +28,7 @@ Graphics::Graphics()
     initSDL();
     resources = new Resources(renderer);
     resources->loadResources();
-    graphicSupport = new GraphicSupport(resources, renderer);
+    
 }
 
 Graphics::~Graphics()
@@ -42,8 +38,6 @@ Graphics::~Graphics()
     delete resources;
     resources = NULL;
 
-    delete graphicSupport;
-    graphicSupport = NULL;
 }
 
 void Graphics::renderGameObjects(std::vector<GameObjects*>* gameObjects, Clock *clock) {
@@ -64,12 +58,6 @@ void Graphics::renderGameObjects(std::vector<GameObjects*>* gameObjects, Clock *
         }
     }
     (*gameObjects)[buttonID]->render(renderer, resources, clock);
-    if (!clock->start) {
-        graphicSupport->renderTransparentBlackBG();
-        graphicSupport->renderNote();
-    }
-
-    
 }
 
 void Graphics::clearScreen() {
@@ -88,15 +76,5 @@ int Graphics::getScreenWidth() {
 }
 int Graphics::getScreenHeight() {
     return screenHeight;
-}
-
-void Graphics::renderAnimation() {
-    if (!graphicSupport->finish) {
-        graphicSupport->render();
-    }
-}
-
-GraphicSupport* Graphics::getGraphicSupport() {
-    return graphicSupport;
 }
 

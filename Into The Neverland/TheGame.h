@@ -16,7 +16,7 @@
 
 class GameObjects;
 class Threat;
-class Button;
+class Menu;
 class Score;
 class GraphicSupport;
 
@@ -25,11 +25,17 @@ class theGame
 private:
 	
 	Threat* threats;
-	Button *button;
+	Menu *menu;
 	Score* score;
-	GraphicSupport* graphicSupport;
 	double threatCoolDown;
 	double clickCoolDown;
+
+	double screenWidth;
+	double screenHeight;
+
+	double speedFix;
+	double groundBaseSpeed;
+
 	int typeOfAnimation;
 	bool gameOver, quit;
 	std::vector <GameObjects*> gameObjects;
@@ -37,7 +43,7 @@ private:
 	//void renderTransparentBlackBG(SDL_Renderer* renderer, Resources* resources);
 
 public:
-	theGame(GraphicSupport* graphicSupport);
+	theGame(double screenWidth, double screenHeight);
 	~theGame();
 
 	std::vector<GameObjects*> *getGameObjects();

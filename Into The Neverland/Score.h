@@ -31,7 +31,7 @@ public:
 	Score(int x, int y, std::vector<GameObjects*>* gameObjects);
 
 	void render(SDL_Renderer* renderer, Resources* resources, Clock* clock);
-	void update(Clock* clock, Inputs* inputs);
+	void update(Clock* clock, Inputs* inputs, double velocity);
 
 	bool isAlive();
 	int getID();

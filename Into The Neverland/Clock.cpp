@@ -3,8 +3,11 @@
 #include <iostream>
 
 Clock::Clock() {
+    deltaT = 1.2;
+
     lastTime = SDL_GetTicks();
     characterLifeTime = 0;
+    
     pause = true;
     start = false;
     animationRunning = false;
@@ -16,15 +19,13 @@ void Clock::reset() {
 
 void Clock::tick() {
 
-    double currentTime = SDL_GetTicks();
-    //std::cout << "[Clocks] curentTime:" << currentTime << std::endl;
-
-    timeBetweenFrames = (currentTime - lastTime) / 1000.0f;
-    lastTime = currentTime;
-
-    //std::cout << "[Clocks] timeBetweenFrames:" << timeBetweenFrames << std::endl;
+    lastTime = SDL_GetTicks();
 }
 
-double Clock::getTimeBetweenFrames() {
-    return timeBetweenFrames;
+void Clock::delay() {
+    int frameTime = SDL_GetTicks() - lastTime;
+    if (frameDelay > frameTime)
+    {
+        SDL_Delay(frameDelay - frameTime);
+    }
 }

@@ -25,8 +25,11 @@ protected:
 	double width;
 	double height;
 	double screenWidth, screenHeight;
+	
 public:
-	GameObjects(double x, double y, double width, double height, double screenWidth, double screenHeight);
+	SDL_Rect hitbox;
+	GameObjects(double x, double y, double width, double height, 
+				double screenWidth, double screenHeight, SDL_Rect hitbox);
 	~GameObjects();
 
 	double getX();
@@ -35,7 +38,7 @@ public:
 	double getHeight();
 
 	virtual void render(SDL_Renderer* renderer, Resources* resources, Clock* clock) = 0;
-	virtual void update(Clock* clock, Inputs *inputs) = 0;
+	virtual void update(Clock* clock, Inputs *inputs, double veloctity) = 0;
 	virtual bool isAlive() = 0;
 	virtual int getID() = 0;
 	virtual void die() = 0;
