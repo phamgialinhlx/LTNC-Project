@@ -13,6 +13,8 @@ Menu::Menu(std::vector<GameObjects*>* gameObjects)
 	retry = false;
 	quit = false;
 	menuType = START_SCREEN;
+	opacity = 255;
+	state = -1;
 }
 
 void Menu::renderTransparentBlackBG(SDL_Renderer* renderer, Resources* resources) {
@@ -22,7 +24,7 @@ void Menu::renderTransparentBlackBG(SDL_Renderer* renderer, Resources* resources
 
 	SDL_Rect dst = { 0, 0, 900, 400 };
 
-	SDL_SetTextureAlphaMod(texture, 100);
+	SDL_SetTextureAlphaMod(texture, opacity);
 
 	SDL_RenderCopyEx(renderer, texture, NULL, &dst, 0,
 		NULL, SDL_FLIP_NONE);
@@ -33,6 +35,8 @@ void Menu::renderStartScreen(SDL_Renderer* renderer, Resources* resources) {
 	texture = resources->getTexture("menu", 0);
 
 	SDL_Rect dst = { 0, 0, 900, 400 };
+
+	SDL_SetTextureAlphaMod(texture, opacity);
 
 	SDL_RenderCopyEx(renderer, texture, NULL, &dst, 0,
 		NULL, SDL_FLIP_NONE);
@@ -59,7 +63,7 @@ void Menu::render(SDL_Renderer* renderer, Resources* resources, Clock* clock) {
 	// render start screen
 	case START_SCREEN:
 		renderStartScreen(renderer, resources);
-		renderButton(renderer, resources, clock, "start_button", &startButton);
+		//renderButton(renderer, resources, clock, "start_button", &startButton);
 		break;
 	// render setting screen
 	case SETTING_SCREEN:
@@ -69,8 +73,12 @@ void Menu::render(SDL_Renderer* renderer, Resources* resources, Clock* clock) {
 		renderButton(renderer, resources, clock, "resume_button", &resumeButton);
 		renderButton(renderer, resources, clock, "quit_button", &quitButton);
 		break;
+	case GAMEOVER_SCREEN:
+		renderTransparentBlackBG(renderer, resources);
+		renderButton(renderer, resources, clock, "retry_button", &retryButton);
+		renderButton(renderer, resources, clock, "quit_button", &quitButton);
+		break;
 	}
-	
 }
 
 bool insideButton(SDL_Rect* dst, Inputs* inputs) {
@@ -96,17 +104,25 @@ void Menu::update(Clock* clock, Inputs* inputs, double velocity) {
 		break;
 	case START_SCREEN:
 		resetButton();
+		if (state == START_SCREEN) {
+			opacity -= 15;
+		}
 		if (insideButton(&startButton, inputs)) {
 			if (inputs->click()) {
-				clock->start = true;
-				clock->pause = false;
-				menuType = DEFAULT;
+				state = START_SCREEN;
 			}
+		}
+		if (opacity == 0) {
+			state = -1;
+			clock->start = true;
+			clock->pause = false;
+			menuType = DEFAULT;
 		}
 		//
 		break;
 	case SETTING_SCREEN:
 		resetButton();
+		opacity = 100;
 		//update resume button
 		if (insideButton(&resumeButton, inputs)) {
 			if (inputs->click() && setting) {
@@ -146,7 +162,25 @@ void Menu::update(Clock* clock, Inputs* inputs, double velocity) {
 		break;
 	case GAMEOVER_SCREEN:
 		resetButton();
-		// 
+		opacity = 100;
+		//update retry button
+		if (insideButton(&retryButton, inputs)) {
+			if (inputs->click()) {
+				std::cout << "here";
+				setting = false;
+				retry = true;
+				clock->pause = false;
+				clock->characterLifeTime = 0;
+			}
+		}
+
+		//update quit button
+		if (insideButton(&quitButton, inputs)) {
+			if (inputs->click()) {
+				setting = false;
+				quit = true;
+			}
+		}
 		break;
 	}
 }
@@ -199,7 +233,17 @@ void Menu::resetButton() {
 		quitButton.h = 50;
 		break;
 	case GAMEOVER_SCREEN:
-		// 
+		//Set the x, y, width, height for retry button
+		retryButton.x = 425;
+		retryButton.y = 150;
+		retryButton.w = 150;
+		retryButton.h = 50;
+
+		//Set the x, y, width, height for quit button
+		quitButton.x = 225;
+		quitButton.y = 150;
+		quitButton.w = 150;
+		quitButton.h = 50;
 		break;
 	}
 }

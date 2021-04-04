@@ -11,7 +11,7 @@ void Threat::createThreats(double *threatCoolDown) {
     if (*threatCoolDown == 0) {
         *threatCoolDown = WALL_DELAY;
         int randomX = rand() % 200 + 900;
-        SDL_Rect hitbox = { randomX + 7, 275, 16, 100 };
-        gameObjects->push_back(new Wall(randomX, 275, 30, 100, 900, 400, hitbox, gameObjects));
+        SDL_Rect hitbox = { randomX + 9, 270, 11, 90 };
+        gameObjects->push_back(new Wall(randomX,275, 30, 100, 900, 400, hitbox, gameObjects));
     }
 }

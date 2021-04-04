@@ -153,7 +153,7 @@ void character::update(Clock* clock, Inputs *inputs, double velocity) {
 			count++;
 		}
 	}
-	std::cout << count << std::endl;
+	//std::cout << count << std::endl;
 	if (y + height > screenHeight - 25) {
 		y = screenHeight - 25 - height;
 		hitbox.y = screenHeight - 25 - height;

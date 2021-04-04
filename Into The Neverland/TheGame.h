@@ -48,7 +48,7 @@ public:
 
 	std::vector<GameObjects*> *getGameObjects();
 	void update(Inputs *inputs, Clock *clock, Sound *sound);
-	void checkCollisions();
+	void checkCollisions(Menu* menu, Sound *sound, Clock *clock);
 	void restart();
 	bool returnQuit();
 };

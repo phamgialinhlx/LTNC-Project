@@ -20,6 +20,8 @@ public:
 	bool retry;
 	bool quit;
 	int menuType;
+	int state;
+	double opacity;
 
 	Menu(std::vector<GameObjects*>* gameObjects);
 	void render(SDL_Renderer* renderer, Resources* resources, Clock* clock);

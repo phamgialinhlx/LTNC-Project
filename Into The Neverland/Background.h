@@ -20,7 +20,6 @@ private:
 	std::vector<GameObjects*> *gameObjects;
 
 public:
-	
 
 	backGround(double x, double y, double width, double height, std::vector<GameObjects*>* gameObjects);
 	void render(SDL_Renderer* renderer, Resources* resources, Clock* clock);

@@ -42,7 +42,7 @@ theGame::theGame(double screenWidth, double screenHeight)
     quit = false;
     speedFix = 0;
     gameObjects.push_back(new backGround(0, 0, screenWidth, screenHeight, &gameObjects));
-    SDL_Rect characterHitbox {220, 275, 65, 100};
+    SDL_Rect characterHitbox {220, 275, 55, 80};
     gameObjects.push_back(new character(200, 275, 85, 100, screenWidth, screenHeight, characterHitbox,&gameObjects));
     menu = new Menu(&gameObjects);
     gameObjects.push_back(menu);
@@ -98,7 +98,7 @@ void theGame::update(Inputs *inputs, Clock *clock, Sound *sound) {
                 gameObjects[i]->update(clock, inputs, (groundBaseSpeed + speedFix) * clock->deltaT);
             }
 
-            checkCollisions();
+            checkCollisions(menu, sound, clock);
 
             for (int i = 0; i < gameObjects.size(); i++) {
                 if (!gameObjects[i]->isAlive()) {
@@ -113,12 +113,14 @@ void theGame::update(Inputs *inputs, Clock *clock, Sound *sound) {
                 //std::cout << button->setting << std::endl;
                 sound->pauseMusic();
                 clock->pause = true;
-                menu->menuType = 2;
+                menu->menuType = 2; //SETTING_SCREEN
             }
             //std::cout << "  [TheGame] pause: " << std::boolalpha << pause << std::endl;
         }
         else {
+            
             menu->update(clock, inputs, (groundBaseSpeed + speedFix) * clock->deltaT);
+            
             if (clock->start) {
                 sound->playMusic(); 
             }
@@ -134,14 +136,16 @@ void theGame::update(Inputs *inputs, Clock *clock, Sound *sound) {
     //std::cout << (groundBaseSpeed + speedFix) * 1.2 << std::endl;
 }
 
-void theGame::checkCollisions() {
+void theGame::checkCollisions(Menu* menu, Sound *sound, Clock *clock) {
     for (int i = 1; i < gameObjects.size(); i++) {
         for (int j = 1; j < gameObjects.size(); j++) {
             if (i != j) {
                 if (gameObjects[i]->getID() == 1 && gameObjects[j]->getID() == 2) {
                     if (overlay(gameObjects[i], gameObjects[j])) {
                         gameObjects[i]->die();
-                        gameOver = true;
+                        sound->pauseMusic();
+                        clock->pause = true;
+                        menu->menuType = 3; //GAME_OVER
                     }
                 }
             }
@@ -164,7 +168,7 @@ void theGame::restart() {
     speedFix = 0;
     gameOver = false;
     gameObjects.push_back(new backGround(0, 0, screenWidth, screenHeight, &gameObjects));
-    SDL_Rect characterHitbox{ 220, 325, 65, 100 };
+    SDL_Rect characterHitbox{ 220, 325, 55, 80 };
     gameObjects.push_back(new character(200, 275, 85, 100, screenWidth, screenHeight, characterHitbox, &gameObjects));
     menu = new Menu(&gameObjects);
     gameObjects.push_back(menu);
