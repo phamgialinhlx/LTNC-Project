@@ -7,8 +7,8 @@
 #include <vector>
 #include "Resources.h"
 #include "GameObjects.h"
+#include "Effects.h"
 
-class GraphicSupport;
 
 class Graphics {
 private:
@@ -20,7 +20,7 @@ private:
 
 
 public:
-	const int screenWidth = 900, screenHeight = 400;
+	const int screenWidth = 1600, screenHeight = 900;
 	const std::string windowTitle = "Into The Neverland: 9 + 1 = 11";
 
 	Graphics();
@@ -29,7 +29,7 @@ public:
 	bool initSDL();
 
 	void clearScreen();
-	void renderGameObjects(std::vector<GameObjects*>* gameObjects, Clock *clock);
+	void renderGameObjects(std::vector<GameObjects*>* gameObjects, Clock *clock, Effects *effects);
 	void renderAnimation();
 	void rendererPresent();
 	int getScreenWidth();

@@ -29,12 +29,17 @@ void Score::render(SDL_Renderer* renderer, Resources* resources, Clock* clock) {
     SDL_DestroyTexture(texture);
 }
 
-void Score::update(Clock* clock, Inputs* inputs, double velocity) {
-    if (!clock->pause) {
+void Score::update(Clock* clock, Inputs* inputs, double velocity, Sound* sound) {
+    switch (clock->gameState) {
+    case OPENING_STATE:
+    case START_STATE:
+    case PAUSE_STATE:
+    case GAME_OVER_STATE:
+        break;
+    case PLAY_STATE:
         characterLifeTime += clock->deltaT / 5.0f;
-        //std::cout << "[Text] characterLifeTime:" << characterLifeTime << std::endl;
+        break;
     }
-
 }
 
 

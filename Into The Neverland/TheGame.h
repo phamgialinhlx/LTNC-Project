@@ -18,6 +18,7 @@ class GameObjects;
 class Threat;
 class Menu;
 class Score;
+class Effects;
 class GraphicSupport;
 
 class theGame
@@ -36,7 +37,7 @@ private:
 	double speedFix;
 	double groundBaseSpeed;
 
-	int typeOfAnimation;
+	
 	bool gameOver, quit;
 	std::vector <GameObjects*> gameObjects;
 
@@ -47,8 +48,9 @@ public:
 	~theGame();
 
 	std::vector<GameObjects*> *getGameObjects();
-	void update(Inputs *inputs, Clock *clock, Sound *sound);
-	void checkCollisions(Menu* menu, Sound *sound, Clock *clock);
+	void update(Inputs *inputs, Clock *clock, Sound *sound, Effects* effects);
+	bool checkCollisions(Sound *sound, Clock *clock);
+	void start(double screenWidth, double screenHeight);
 	void restart();
 	bool returnQuit();
 };

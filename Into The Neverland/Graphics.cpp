@@ -1,5 +1,5 @@
 #include "Graphics.h"
-
+#include "Effects.h"
 
 bool Graphics::initSDL()
 {
@@ -40,24 +40,52 @@ Graphics::~Graphics()
 
 }
 
-void Graphics::renderGameObjects(std::vector<GameObjects*>* gameObjects, Clock *clock) {
-    
+void Graphics::renderGameObjects(std::vector<GameObjects*>* gameObjects, Clock *clock, Effects *effects) {
 
-    int buttonID = -1;
-    for (int i = 0; i < gameObjects->size(); i++) {
-        if ((*gameObjects)[i]->getID() == 4) {
-            buttonID = i;
-        }
-        else if (!clock->start){
-            if ((*gameObjects)[i]->getID() == 0) {
-                (*gameObjects)[i]->render(renderer, resources, clock);
-            }
-        }
-        else {
+    //if (effects->effectType != NONE) {
+        
+    //}
+    //else {
+    switch (effects->effectType)
+    {
+    case NONE:
+        
+        for (int i = 0; i < gameObjects->size(); i++) {
             (*gameObjects)[i]->render(renderer, resources, clock);
         }
+        break;
+
+    case CREDIT:
+        effects->render(renderer, resources, clock);
+        break;
+
+    case FADE:
+    case FLASH:
+        for (int i = 0; i < gameObjects->size(); i++) {
+            (*gameObjects)[i]->render(renderer, resources, clock);
+        }
+        effects->render(renderer, resources, clock);
+        break;
     }
-    (*gameObjects)[buttonID]->render(renderer, resources, clock);
+    
+        
+    //}
+    //int buttonID = -1;
+    //for (int i = 0; i < gameObjects->size(); i++) {
+    //    if ((*gameObjects)[i]->getID() == 4) {
+    //        buttonID = i;
+    //    }
+    //    else if (!clock->start){
+    //        if ((*gameObjects)[i]->getID() == 0) {
+    //            (*gameObjects)[i]->render(renderer, resources, clock);
+    //        }
+    //    }
+    //    else {
+    //        (*gameObjects)[i]->render(renderer, resources, clock);
+    //    }
+    //}
+    
+    //(*gameObjects)[buttonID]->render(renderer, resources, clock);
 }
 
 void Graphics::clearScreen() {

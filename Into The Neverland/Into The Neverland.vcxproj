@@ -145,6 +145,7 @@
     <ClCompile Include="Background.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Clock.cpp" />
+    <ClCompile Include="Effects.cpp" />
     <ClCompile Include="GameObjects.cpp" />
     <ClCompile Include="Graphics.cpp" />
     <ClCompile Include="Inputs.cpp" />
@@ -156,12 +157,13 @@
     <ClCompile Include="Text.cpp" />
     <ClCompile Include="TheGame.cpp" />
     <ClCompile Include="Threat.cpp" />
-    <ClCompile Include="Wall.cpp" />
+    <ClCompile Include="Wolf.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Background.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Clock.h" />
+    <ClInclude Include="Effects.h" />
     <ClInclude Include="GameObjects.h" />
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Inputs.h" />
@@ -172,7 +174,7 @@
     <ClInclude Include="Text.h" />
     <ClInclude Include="TheGame.h" />
     <ClInclude Include="Threat.h" />
-    <ClInclude Include="Wall.h" />
+    <ClInclude Include="Wolf.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,6 +2,7 @@
 #include "TheGame.h"
 #include "Graphics.h"
 #include "Inputs.h"
+#include "Effects.h"
 
 
 int main(int argc, char* argv[])
@@ -13,6 +14,7 @@ int main(int argc, char* argv[])
 	Clock clock;
 	Inputs inputs;
 	Graphics graphics;
+	Effects effects(&graphics.screenWidth, &graphics.screenHeight);
 	theGame intoTheNeverland(graphics.screenWidth, graphics.screenHeight);
 	
 	bool loop = true;
@@ -24,10 +26,14 @@ int main(int argc, char* argv[])
 		inputs.update();
 		loop = !inputs.getQuit();
 		
-		intoTheNeverland.update(&inputs, &clock, &sound);
+		if (effects.effectType != NONE) {
+			effects.update(&clock, &inputs, &sound);
+		}
+		intoTheNeverland.update(&inputs, &clock, &sound, &effects);
+		
 
 		graphics.clearScreen();
-		graphics.renderGameObjects(intoTheNeverland.getGameObjects(),&clock);
+		graphics.renderGameObjects(intoTheNeverland.getGameObjects(), &clock, &effects);
 		graphics.rendererPresent();
 
 		if (intoTheNeverland.returnQuit()) {

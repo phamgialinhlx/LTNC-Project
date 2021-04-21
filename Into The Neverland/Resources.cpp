@@ -35,6 +35,10 @@ void Resources::loadTexture(SDL_Texture **texture, std::string path) {
 
 void Resources::loadResources() {
     loadTexture(&texture["background"][0], "background/background.png");
+    loadTexture(&texture["ground"][0], "background/ground.png");
+    loadTexture(&texture["mushroom"][0], "background/mushroom.png");
+    loadTexture(&texture["mushroom"][1], "background/bigMushroom.png");
+
 
     loadTexture(&texture["characterRun"][0], "character/run/run1.png");
     loadTexture(&texture["characterRun"][1], "character/run/run2.png");
@@ -63,9 +67,31 @@ void Resources::loadResources() {
     loadTexture(&texture["characterJump"][13], "character/jump/jump14.png");
     loadTexture(&texture["characterJump"][14], "character/jump/jump15.png");
 
-    loadTexture(&texture["wall"][0], "wall.png");
-    
-    loadTexture(&texture["menu"][0], "start_screen.png");
+    loadTexture(&texture["violetWolfRun"][0], "violetWolf/run/run0.png");
+    loadTexture(&texture["violetWolfRun"][1], "violetWolf/run/run1.png");
+    loadTexture(&texture["violetWolfRun"][2], "violetWolf/run/run2.png");
+    loadTexture(&texture["violetWolfRun"][3], "violetWolf/run/run3.png");
+    loadTexture(&texture["violetWolfRun"][4], "violetWolf/run/run4.png");
+    loadTexture(&texture["violetWolfRun"][5], "violetWolf/run/run5.png");
+    loadTexture(&texture["violetWolfRun"][6], "violetWolf/run/run6.png");
+    loadTexture(&texture["violetWolfRun"][7], "violetWolf/run/run7.png");
+    loadTexture(&texture["violetWolfRun"][8], "violetWolf/run/run8.png");
+    loadTexture(&texture["violetWolfRun"][9], "violetWolf/run/run9.png");
+    loadTexture(&texture["violetWolfRun"][10], "violetWolf/run/run10.png");
+    loadTexture(&texture["violetWolfRun"][11], "violetWolf/run/run11.png");
+
+    loadTexture(&texture["menu"][0], "menu/menu.png");
+    loadTexture(&texture["menu"][1], "menu/soundOnButton.png");
+    loadTexture(&texture["menu"][2], "menu/soundOffButton.png");
+    loadTexture(&texture["menu"][3], "menu/exitButton.png");
+    loadTexture(&texture["menu"][4], "menu/playButton.png");
+    loadTexture(&texture["menu"][5], "menu/overSoundOnButton.png");
+    loadTexture(&texture["menu"][6], "menu/overSoundOffButton.png");
+    loadTexture(&texture["menu"][7], "menu/overExitButton.png");
+    loadTexture(&texture["menu"][8], "menu/overPlayButton.png");
+
+    loadTexture(&texture["credit"][0], "credit.png");
+
     loadTexture(&texture["start_button"][0], "start_button.png");
     loadTexture(&texture["setting_button"][0], "setting_button.png");
     loadTexture(&texture["resume_button"][0], "resume.png");
@@ -73,13 +99,14 @@ void Resources::loadResources() {
     loadTexture(&texture["retry_button"][0], "retry.png");
 
 
-    loadTexture(&texture["black"][0], "black.png");
+    loadTexture(&texture["black"][0], "TransBG/black.png");
+    loadTexture(&texture["white"][0], "TransBG/white.png");
 }
 
 SDL_Texture* Resources::getTexture(std::string path, int frame) {
     return texture[path][frame];
 }
-
+    
 SDL_Texture* Resources::createTextTexture(std::string text) {
     SDL_Texture* texture;
 

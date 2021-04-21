@@ -7,14 +7,18 @@
 #include <string>
 #include "TheGame.h"
 #include "Resources.h"
+#include "Sound.h"
 #include "Inputs.h"
 #include "Clock.h"
 
-// ID BACKGROUND: 0
-// ID CHARACTER: 1
-// ID THREAT: 2
-// ID Text: 3
-// ID BUTTON: 4
+enum GAME_OBJECTS_ID {
+	BACKGROUND_ID,
+	CHARACTER_ID,
+	THREAT_ID,
+	TEXT_ID,
+	BUTTON_ID
+};
+
 
 class theGame;
 	
@@ -36,9 +40,10 @@ public:
 	double getY();
 	double getWidth();
 	double getHeight();
-
+	
+	void renderHitbox(SDL_Renderer* renderer);
 	virtual void render(SDL_Renderer* renderer, Resources* resources, Clock* clock) = 0;
-	virtual void update(Clock* clock, Inputs *inputs, double veloctity) = 0;
+	virtual void update(Clock* clock, Inputs *inputs, double veloctity, Sound* sound) = 0;
 	virtual bool isAlive() = 0;
 	virtual int getID() = 0;
 	virtual void die() = 0;

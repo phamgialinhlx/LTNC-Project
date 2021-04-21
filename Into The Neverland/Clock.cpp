@@ -2,7 +2,9 @@
 #include "Clock.h"
 #include <iostream>
 
+
 Clock::Clock() {
+    gameState = OPENING_STATE;
     deltaT = 1.2;
 
     lastTime = SDL_GetTicks();
@@ -10,7 +12,9 @@ Clock::Clock() {
     
     pause = true;
     start = false;
+    quit = false;
     animationRunning = false;
+
 }
 
 void Clock::reset() {

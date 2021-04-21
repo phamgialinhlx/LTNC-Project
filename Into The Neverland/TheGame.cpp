@@ -4,9 +4,10 @@
 #include "Threat.h"
 #include "Menu.h"
 #include "Score.h"
+#include "Effects.h"
 #include <iostream>
 
-#define START_SCREEN 1
+
 
 bool overlay(GameObjects* gameObject1, GameObjects* gameObject2) {
     bool collidsionOnAxisX = false;
@@ -34,20 +35,22 @@ theGame::theGame(double screenWidth, double screenHeight)
 {
     this->screenWidth = screenWidth;
     this->screenHeight = screenHeight;
-    
-    threats = new Threat(&gameObjects);
-    threatCoolDown = 0;
-    gameOver = false;
-    groundBaseSpeed = 7;
+    groundBaseSpeed = 12;
     quit = false;
     speedFix = 0;
+
     gameObjects.push_back(new backGround(0, 0, screenWidth, screenHeight, &gameObjects));
-    SDL_Rect characterHitbox {220, 275, 55, 80};
-    gameObjects.push_back(new character(200, 275, 85, 100, screenWidth, screenHeight, characterHitbox,&gameObjects));
-    menu = new Menu(&gameObjects);
-    gameObjects.push_back(menu);
+    SDL_Rect characterHitbox{ 235, 525, 105, 160 };
+    gameObjects.push_back(new character(200, 525, 170, 200, screenWidth, screenHeight, characterHitbox, &gameObjects));
     score = new Score(30, 30, &gameObjects);
     gameObjects.push_back(score);
+    threats = new Threat(screenWidth, screenHeight, &gameObjects);
+    menu = new Menu(&gameObjects, screenWidth, screenHeight);
+    gameObjects.push_back(menu);
+    
+    
+    
+    //start(screenWidth, screenHeight);
 }
 
 theGame::~theGame()
@@ -65,92 +68,86 @@ std::vector<GameObjects*> *theGame::getGameObjects(){
     return &gameObjects;
 }
 
-void theGame::update(Inputs *inputs, Clock *clock, Sound *sound) {
-    
-    
-    /*if (clock->animationRunning) {
-        graphicSupport->update(typeOfAnimation);
-        clock->animationRunning = !graphicSupport->finish;
+void theGame::update(Inputs *inputs, Clock *clock, Sound *sound, Effects* effects) {
+    switch (clock->gameState) {
+    case OPENING_STATE:
+        if (effects->finish) {
+            effects->effectType = FADE;
+            clock->gameState = START_STATE;
+        }
+        break;
+    case START_STATE:
+        menu->update(clock, inputs, (groundBaseSpeed + speedFix) * clock->deltaT, sound);
+        if (clock->gameState == PLAY_STATE) {
+            effects->effectType = FLASH;
 
-    }
-    else {  */      
-        if (gameOver || menu->retry) {
+        }
+        break;
+    case PLAY_STATE:
+        threats->createThreats(&threatCoolDown);
+        if (threatCoolDown > 0) {
+            threatCoolDown -= clock->deltaT;
+            if (threatCoolDown < 0) {
+                threatCoolDown = 0;
+            }
+        }
+        //std::cout << gameObjects.size() << std::endl;
+        for (int i = 0; i < gameObjects.size(); i++) {
+            gameObjects[i]->update(clock, inputs, (groundBaseSpeed + speedFix) * clock->deltaT, sound);
+        }
+
+        if (checkCollisions(sound, clock)) {
             sound->pauseMusic();
-            sound->stopMusic();
-            restart();
-            sound->playMusic();
+            clock->gameState = GAME_OVER_STATE;
         }
-
-        if (!clock->pause && clock->start) {
-
-            sound->resumeMusic();
-
-            threats->createThreats(&threatCoolDown);
-
-            if (threatCoolDown > 0) {
-                threatCoolDown -= clock->deltaT;
-                if (threatCoolDown < 0) {
-                    threatCoolDown = 0;
-                }
-            }
-
-            for (int i = 0; i < gameObjects.size(); i++) {
-                gameObjects[i]->update(clock, inputs, (groundBaseSpeed + speedFix) * clock->deltaT);
-            }
-
-            checkCollisions(menu, sound, clock);
-
-            for (int i = 0; i < gameObjects.size(); i++) {
-                if (!gameObjects[i]->isAlive()) {
-                    delete gameObjects[i];
-                    gameObjects[i] = NULL;
-                    gameObjects.erase(gameObjects.begin() + i);
-                    i -= 1;
-                }
-            }
-            
-            if (menu->setting) {
-                //std::cout << button->setting << std::endl;
-                sound->pauseMusic();
-                clock->pause = true;
-                menu->menuType = 2; //SETTING_SCREEN
-            }
-            //std::cout << "  [TheGame] pause: " << std::boolalpha << pause << std::endl;
-        }
-        else {
-            
-            menu->update(clock, inputs, (groundBaseSpeed + speedFix) * clock->deltaT);
-            
-            if (clock->start) {
-                sound->playMusic(); 
+        for (int i = 0; i < gameObjects.size(); i++) {
+            if (!gameObjects[i]->isAlive()) {
+                delete gameObjects[i];
+                gameObjects[i] = NULL;
+                gameObjects.erase(gameObjects.begin() + i);
+                i -= 1;
             }
         }
 
-        quit = menu->quit;
-    //}
+        if (speedFix <= 1.3 * groundBaseSpeed && !clock->pause)//speed fix limit
+        {
+            speedFix += 0.0025;
+        }
 
-    if (speedFix <= 1.3 * groundBaseSpeed && !clock->pause)//speed fix limit
-    {
-        speedFix += 0.0025;
+        //std::cout << (groundBaseSpeed + speedFix) * 1.2 << std::endl;
+        
+        //if (menu->setting) {
+        //    //std::cout << button->setting << std::endl;
+        //    sound->pauseMusic();
+        //    clock->pause = true;
+        //    menu->menuType = 2; //SETTING_SCREEN
+        //}
+        break;
+
+    case PAUSE_STATE:
+        
+        break;
+    case GAME_OVER_STATE:
+        
+        break;
     }
-    //std::cout << (groundBaseSpeed + speedFix) * 1.2 << std::endl;
+    quit = clock->quit;
 }
 
-void theGame::checkCollisions(Menu* menu, Sound *sound, Clock *clock) {
+bool theGame::checkCollisions(Sound *sound, Clock *clock) {
     for (int i = 1; i < gameObjects.size(); i++) {
         for (int j = 1; j < gameObjects.size(); j++) {
             if (i != j) {
                 if (gameObjects[i]->getID() == 1 && gameObjects[j]->getID() == 2) {
                     if (overlay(gameObjects[i], gameObjects[j])) {
                         gameObjects[i]->die();
-                        sound->pauseMusic();
-                        clock->pause = true;
-                        menu->menuType = 3; //GAME_OVER
+                        return true;
                     }
                 }
             }
         }
     }
+    return false;
 }
 
 void theGame::restart() {
@@ -165,16 +162,22 @@ void theGame::restart() {
         
     }
     //create new game objects
-    speedFix = 0;
-    gameOver = false;
-    gameObjects.push_back(new backGround(0, 0, screenWidth, screenHeight, &gameObjects));
-    SDL_Rect characterHitbox{ 220, 325, 55, 80 };
-    gameObjects.push_back(new character(200, 275, 85, 100, screenWidth, screenHeight, characterHitbox, &gameObjects));
-    menu = new Menu(&gameObjects);
-    gameObjects.push_back(menu);
-    menu->menuType = 0;
-    score = new Score(30, 30, &gameObjects);
-    gameObjects.push_back(score);
+    //start(screenWidth, screenHeight);
+    //menu->menuType = 0;
+}
+
+void theGame::start(double screenWidth, double screenHeight) {
+    //groundBaseSpeed = 12;
+    //quit = false;
+    //speedFix = 0;
+
+    //gameObjects.push_back(new backGround(0, 0, screenWidth, screenHeight, &gameObjects));
+    //SDL_Rect characterHitbox{ 235, 525, 105, 160 };
+    //gameObjects.push_back(new character(200, 525, 170, 200, screenWidth, screenHeight, characterHitbox, &gameObjects));
+    //menu = new Menu(&gameObjects, screenWidth, screenHeight);
+    //gameObjects.push_back(menu);
+    //score = new Score(30, 30, &gameObjects);
+    //gameObjects.push_back(score);
 }
 
 bool theGame::returnQuit() {

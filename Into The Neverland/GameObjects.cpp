@@ -33,3 +33,7 @@ double GameObjects::getHeight() {
 	return height;
 }
 
+void GameObjects::renderHitbox(SDL_Renderer* renderer) {
+	SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+	SDL_RenderDrawRect(renderer, &hitbox);
+}

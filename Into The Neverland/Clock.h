@@ -2,6 +2,14 @@
 #ifndef CLOCK_H
 #define CLOCK_H
 
+enum GAME_STATE
+{
+	OPENING_STATE,
+	START_STATE,
+	PLAY_STATE,
+	PAUSE_STATE,
+	GAME_OVER_STATE
+};
 
 class Clock {
 
@@ -11,11 +19,14 @@ class Clock {
 
 public:
 
+	
+	int gameState;
 	const int FPS = 60;
 	const int frameDelay = 1000 / FPS;
 
 	int deltaT;
 
+	bool quit;
 	bool pause;
 	bool start;
 	bool animationRunning;

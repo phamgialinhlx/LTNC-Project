@@ -4,16 +4,16 @@
 
 #include <vector>
 #include "GameObjects.h"
-#include "Wall.h"
-
+#include"Wolf.h"
 class GameObjects;
 
 class Threat {
 private:
 	std::vector<GameObjects*> *gameObjects;
+	int screenWidth, screenHeight;
 
 public:
-	Threat(std::vector<GameObjects*> *gameObjects);
+	Threat(int screenWidth, int screenHeight, std::vector<GameObjects*> *gameObjects);
 	void createThreats(double* threatCoolDown);
 };
 

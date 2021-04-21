@@ -16,13 +16,13 @@ private:
 
 	double gravity, vY, count;
 	bool jump, alive;
-	int characterTimer;
+	int frame;
 
 public:
 	character(double x, double y, double width, double height, double screenWidth, 
 			  double screenHeight, SDL_Rect hitbox, std::vector<GameObjects*>* gameObjects);
 	void render(SDL_Renderer* renderer, Resources* resources, Clock* clock);
-	void update(Clock* clock, Inputs *inputs, double velocity);
+	void update(Clock* clock, Inputs *inputs, double velocity, Sound *sound);
 	bool isAlive();
 	int getID();
 	void die();
