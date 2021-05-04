@@ -3,70 +3,43 @@
 
 #define TOTAL_RUN_FRAMES 50
 #define TOTAL_JUMP_FRAMES 60
+#define MAXHEIGHT 330
 
 character::character(double x, double y, double width, double height, double screenWidth, 
 					 double screenHeight, SDL_Rect hitbox ,std::vector<GameObjects*>* gameObjects)
 					:GameObjects(x, y, width, height, screenWidth, screenHeight, hitbox) 
 {
-	gravity = -0.8f;
+	ground = y + height;
 	vY = 0;
 	alive = true;
 	jump = false;
 	this->gameObjects = gameObjects;
 	frame = TOTAL_RUN_FRAMES;
-	count = 0;
+	fall = true;
 }
 
-int chooseFrames(bool jump, int n) {
+int character::chooseFrames() {
 	
 	if (!jump){
-		if (n >= 45) {
-			return 0;
-		}
-		if (n >= 40) {
-			return 1;
-		}
-		if (n >= 35) {
-			return 2;
-		}
-		if (n >= 30) {
-			return 3;
-		}
-		if (n >= 25) {
-			return 4;
-		}
-		if (n >= 20) {
-			return 5;
-		}
-		if (n >= 15) {
-			return 6;
-		}
-		if (n >= 10) {
-			return 7;
-		}
-		if (n >= 5) {
-			return 8;
-		}
-		if (n >= 0) {
-			return 9;
-		}
+		if (frame == 0) return 9;
+		return (TOTAL_RUN_FRAMES - frame) / 5;
 	}
 	else {
-		if (n >= 58) return 0;
-		if (n >= 56) return 1;
-		if (n >= 54) return 2;
-		if (n >= 52) return 3;
-		if (n >= 48) return 4;
-		if (n >= 43) return 5;
-		if (n >= 38) return 6;
-		if (n >= 33) return 7;
-		if (n >= 15) return 8;
-		if (n >= 9) return 9;
-		if (n >= 8) return 10;
-		if (n >= 3) return 11;
-		if (n >= 2) return 12;
-		if (n >= 1) return 13;
-		if (n >= 0) return 14;
+		if (frame >= 58) return 0;
+		if (frame >= 56) return 1;
+		if (frame >= 54) return 2;
+		if (frame >= 52) return 3;
+		if (frame >= 48) return 4;
+		if (frame >= 43) return 5;
+		if (frame >= 38) return 6;
+		if (frame >= 33) return 7;
+		if (frame >= 15) return 8;
+		if (frame >= 9) return 9;
+		if (frame >= 8) return 10;
+		if (frame >= 3) return 11;
+		if (frame >= 2) return 12;
+		if (frame >= 1) return 13;
+		if (frame >= 0) return 14;
 
 	}
 }
@@ -75,17 +48,19 @@ void character::render(SDL_Renderer* renderer, Resources* resources, Clock* cloc
 	switch (clock->gameState) {
 	case OPENING_STATE:
 	case START_STATE:
-	case PAUSE_STATE:
 	case GAME_OVER_STATE:
+		break;
+	case PAUSE_STATE:
+		//std::cout << "[Character] render" << std::endl;
 		break;
 	case PLAY_STATE:
 		SDL_Texture* texture;
 
 		if (jump) {
-			texture = resources->getTexture("characterJump", chooseFrames(jump, frame));
+			texture = resources->getTexture("characterJump", chooseFrames());
 		}
 		else {
-			texture = resources->getTexture("characterRun", chooseFrames(jump, frame));
+			texture = resources->getTexture("characterRun", chooseFrames());
 		}
 
 
@@ -121,30 +96,30 @@ void character::update(Clock* clock, Inputs *inputs, double velocity, Sound* sou
 	case GAME_OVER_STATE:
 		break;
 	case PLAY_STATE:
-		//std::cout << "[Character] y: " << y << std::endl;
-		//std::cout << "[Character] screenHeight - 25 - height: " << screenHeight - 25 - height << std::endl;
-		//std::cout << "[Character] vY: " << vY << std::endl;	
-		//if (inputs->isKeyDown(SDL_SCANCODE_SPACE)) {  }
 		if (y == 525 && vY == 0 && !jump && inputs->isKeyDown(SDL_SCANCODE_SPACE)) { //only jump when on the ground
 			vY = 24;
 			jump = true;
-			count = 0;
-			frame = TOTAL_RUN_FRAMES;
+			frame = TOTAL_JUMP_FRAMES;
+			fall = false;
 		}
-		//std::cout << y << std::endl;
-		//std::cout << std::boolalpha << jump << std::endl;
-		if (jump) {
+		if (!fall) {
+			gameObjects->push_back(new Particle(hitbox.x, y + height/2, -(((double)rand()) / RAND_MAX * 10.0f + 10) * 10.5, 
+												(((double)rand()) / RAND_MAX * 30.0f)*2 , 8, "pow"));
+		}
 
-			if ((y == 525 && vY > 0) || y < 675) {
+		if (jump) {
+			if ((y + height == ground && vY > 0) || y < ground) {
 				y -= vY * clock->deltaT + 0.5f * gravity * clock->deltaT * clock->deltaT;
 				hitbox.y -= vY * clock->deltaT + 0.5f * gravity * clock->deltaT * clock->deltaT;
 				//y = y0 + v0*t + (a*t*t)/2
 				vY += gravity * clock->deltaT;
 				//vy = v0 + a*t
-				count++;
+				if (y + height < MAXHEIGHT + height) {
+					fall = true;
+				}
 			}
 		}
-		//std::cout << count << std::endl;
+
 		if (y > 525) {
 			y = 525;
 			hitbox.y = 525;
@@ -163,10 +138,10 @@ void character::update(Clock* clock, Inputs *inputs, double velocity, Sound* sou
 	}
 }
 
+
 int character::getID() {
 	return CHARACTER_ID;
 }
 
 void character::die() {
-	alive = false;
 }

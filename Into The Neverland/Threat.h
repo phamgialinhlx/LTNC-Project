@@ -5,6 +5,7 @@
 #include <vector>
 #include "GameObjects.h"
 #include"Wolf.h"
+
 class GameObjects;
 
 class Threat {

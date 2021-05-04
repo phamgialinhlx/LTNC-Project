@@ -2,17 +2,22 @@
 #ifndef SOUND_H
 #define SOUND_H
 
-
 #include <SDL_mixer.h>
+#include "Clock.h"
 
 class Sound {
 private:
 	Mix_Music* music;
-
-	bool loadMedia();
+	
 public:
+
+	bool mute;
+
 	Sound();
 	~Sound();
+	void changeMusic(int state);
+	void update(Clock *clock);
+	bool loadMusic(int state);
 	void playMusic();
 	void pauseMusic();
 	void resumeMusic();

@@ -22,40 +22,34 @@ bool Inputs::checkForQuit(SDL_Event event) {
 
 }
 
-void Inputs::update() {
 
+void Inputs::update() {
+    isClicked = false;
     keyStates = SDL_GetKeyboardState(NULL);
 
-    SDL_Event event;
     while (SDL_PollEvent(&event)) {
-
+        
         if (checkForQuit(event)) {
             quit = true;
         }
 
-        if (event.type == SDL_MOUSEMOTION || event.type == SDL_MOUSEBUTTONDOWN || event.type == SDL_MOUSEBUTTONUP) {
-            switch (event.type) {
-            case SDL_MOUSEMOTION:
-                mouseX = event.motion.x;
-                mouseY = event.motion.y;
-                break;
-            case SDL_MOUSEBUTTONDOWN:
-                isClicked = true;
-                break;
-
-            case SDL_MOUSEBUTTONUP:
-                isClicked = false;
-                break;
-            }
+        if (event.type == SDL_MOUSEBUTTONUP) {
+            isClicked = true;
         }
 
+        if (event.type == SDL_MOUSEMOTION) {
+            mouseX = event.motion.x;
+            mouseY = event.motion.y;
+        } 
     }
 }
 
 bool Inputs::click() {
-   
     return isClicked;
 }
+
+
+
 
 int Inputs::getMouseX() {
     return mouseX;

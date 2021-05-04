@@ -12,8 +12,7 @@ GameObjects::GameObjects(double x, double y, double width, double height,
 	this->hitbox = hitbox;
 }
 
-GameObjects::~GameObjects()
-{
+GameObjects::~GameObjects(){
 	
 }
 

@@ -35,31 +35,18 @@ theGame::theGame(double screenWidth, double screenHeight)
 {
     this->screenWidth = screenWidth;
     this->screenHeight = screenHeight;
-    groundBaseSpeed = 12;
-    quit = false;
-    speedFix = 0;
-
-    gameObjects.push_back(new backGround(0, 0, screenWidth, screenHeight, &gameObjects));
-    SDL_Rect characterHitbox{ 235, 525, 105, 160 };
-    gameObjects.push_back(new character(200, 525, 170, 200, screenWidth, screenHeight, characterHitbox, &gameObjects));
-    score = new Score(30, 30, &gameObjects);
-    gameObjects.push_back(score);
-    threats = new Threat(screenWidth, screenHeight, &gameObjects);
-    menu = new Menu(&gameObjects, screenWidth, screenHeight);
-    gameObjects.push_back(menu);
     
-    
-    
-    //start(screenWidth, screenHeight);
+    start(screenWidth, screenHeight);
 }
 
 theGame::~theGame()
 {
+    //delete score;
+
     for (int i = 0; i < gameObjects.size(); i++) {
         delete gameObjects[i];
         gameObjects[i] = NULL;
     }
-
     delete threats;
     threats = NULL;
 }
@@ -74,16 +61,22 @@ void theGame::update(Inputs *inputs, Clock *clock, Sound *sound, Effects* effect
         if (effects->finish) {
             effects->effectType = FADE;
             clock->gameState = START_STATE;
+            sound->changeMusic(clock->gameState);
         }
         break;
     case START_STATE:
+
+        sound->update(clock);
+
         menu->update(clock, inputs, (groundBaseSpeed + speedFix) * clock->deltaT, sound);
+        
         if (clock->gameState == PLAY_STATE) {
             effects->effectType = FLASH;
-
+            sound->changeMusic(clock->gameState);
         }
         break;
     case PLAY_STATE:
+        sound->update(clock);
         threats->createThreats(&threatCoolDown);
         if (threatCoolDown > 0) {
             threatCoolDown -= clock->deltaT;
@@ -91,15 +84,17 @@ void theGame::update(Inputs *inputs, Clock *clock, Sound *sound, Effects* effect
                 threatCoolDown = 0;
             }
         }
-        //std::cout << gameObjects.size() << std::endl;
+        
         for (int i = 0; i < gameObjects.size(); i++) {
             gameObjects[i]->update(clock, inputs, (groundBaseSpeed + speedFix) * clock->deltaT, sound);
         }
 
         if (checkCollisions(sound, clock)) {
-            sound->pauseMusic();
+            sound->stopMusic();
+            effects->effectType = FLASH;
             clock->gameState = GAME_OVER_STATE;
         }
+
         for (int i = 0; i < gameObjects.size(); i++) {
             if (!gameObjects[i]->isAlive()) {
                 delete gameObjects[i];
@@ -113,25 +108,33 @@ void theGame::update(Inputs *inputs, Clock *clock, Sound *sound, Effects* effect
         {
             speedFix += 0.0025;
         }
-
-        //std::cout << (groundBaseSpeed + speedFix) * 1.2 << std::endl;
-        
-        //if (menu->setting) {
-        //    //std::cout << button->setting << std::endl;
-        //    sound->pauseMusic();
-        //    clock->pause = true;
-        //    menu->menuType = 2; //SETTING_SCREEN
-        //}
         break;
-
     case PAUSE_STATE:
-        
+        menu->update(clock, inputs, (groundBaseSpeed + speedFix) * clock->deltaT, sound);
+        sound->update(clock);
+
+        if (clock->restart) {
+            restart();
+            clock->gameState = PLAY_STATE;
+            clock->restart = false;
+            effects->effectType = FLASH;
+        }
+        else if (clock->gameState == PLAY_STATE) {
+            effects->effectType = FADE;
+        }
+       
         break;
     case GAME_OVER_STATE:
-        
+        menu->update(clock, inputs, (groundBaseSpeed + speedFix) * clock->deltaT, sound);
+        if (clock->restart) {
+            restart();
+            clock->gameState = PLAY_STATE;
+            clock->restart = false;
+            effects->effectType = FLASH;
+        }
         break;
     }
-    quit = clock->quit;
+
 }
 
 bool theGame::checkCollisions(Sound *sound, Clock *clock) {
@@ -162,27 +165,23 @@ void theGame::restart() {
         
     }
     //create new game objects
-    //start(screenWidth, screenHeight);
-    //menu->menuType = 0;
+    start(screenWidth, screenHeight);
 }
 
 void theGame::start(double screenWidth, double screenHeight) {
-    //groundBaseSpeed = 12;
-    //quit = false;
-    //speedFix = 0;
+    groundBaseSpeed = 18;
+    speedFix = 0;
 
-    //gameObjects.push_back(new backGround(0, 0, screenWidth, screenHeight, &gameObjects));
-    //SDL_Rect characterHitbox{ 235, 525, 105, 160 };
-    //gameObjects.push_back(new character(200, 525, 170, 200, screenWidth, screenHeight, characterHitbox, &gameObjects));
-    //menu = new Menu(&gameObjects, screenWidth, screenHeight);
-    //gameObjects.push_back(menu);
-    //score = new Score(30, 30, &gameObjects);
-    //gameObjects.push_back(score);
+    gameObjects.push_back(new backGround(0, 0, screenWidth, screenHeight, &gameObjects));
+    SDL_Rect characterHitbox{ 235, 525, 105, 160 };
+    gameObjects.push_back(new character(200, 525, 170, 200, screenWidth, screenHeight, characterHitbox, &gameObjects));
+    score = new Score(30, 30, &gameObjects);
+    gameObjects.push_back(score);
+    threats = new Threat(screenWidth, screenHeight, &gameObjects);
+    menu = new Menu(&gameObjects, screenWidth, screenHeight);
+    gameObjects.push_back(menu);
 }
 
-bool theGame::returnQuit() {
-    return quit;
-}
 
 
 

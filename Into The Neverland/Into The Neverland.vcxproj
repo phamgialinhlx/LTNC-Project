@@ -151,10 +151,10 @@
     <ClCompile Include="Inputs.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Menu.cpp" />
+    <ClCompile Include="Particle.cpp" />
     <ClCompile Include="Resources.cpp" />
     <ClCompile Include="Score.cpp" />
     <ClCompile Include="Sound.cpp" />
-    <ClCompile Include="Text.cpp" />
     <ClCompile Include="TheGame.cpp" />
     <ClCompile Include="Threat.cpp" />
     <ClCompile Include="Wolf.cpp" />
@@ -168,10 +168,10 @@
     <ClInclude Include="Graphics.h" />
     <ClInclude Include="Inputs.h" />
     <ClInclude Include="Menu.h" />
+    <ClInclude Include="Particle.h" />
     <ClInclude Include="Resources.h" />
     <ClInclude Include="Score.h" />
     <ClInclude Include="Sound.h" />
-    <ClInclude Include="Text.h" />
     <ClInclude Include="TheGame.h" />
     <ClInclude Include="Threat.h" />
     <ClInclude Include="Wolf.h" />

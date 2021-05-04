@@ -14,12 +14,9 @@ enum GAME_STATE
 class Clock {
 
 	unsigned int lastTime;
-	double timeBetweenFrames;
-
 
 public:
 
-	
 	int gameState;
 	const int FPS = 60;
 	const int frameDelay = 1000 / FPS;
@@ -28,8 +25,7 @@ public:
 
 	bool quit;
 	bool pause;
-	bool start;
-	bool animationRunning;
+	bool restart;
 	double characterLifeTime;
 
 	Clock();

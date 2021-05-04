@@ -7,6 +7,8 @@
 #include "Inputs.h"
 #include <string>
 
+#define VFIX 0.7f
+
 class GameObjects;
 class Resources;
 
@@ -27,7 +29,6 @@ public:
 
 	backGround(double x, double y, double width, double height, std::vector<GameObjects*>* gameObjects);
 	void render(SDL_Renderer* renderer, Resources* resources, Clock* clock);
-
 	void update(Clock* clock, Inputs *inputs, double velocity, Sound* sound);
 	bool isAlive();
 	int getID();

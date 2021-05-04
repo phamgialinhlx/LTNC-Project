@@ -86,7 +86,7 @@ void Effects::update(Clock* clock, Inputs* inputs, Sound* sound) {
 			opacity = 0;
 			brighter = false;
 		}
-		SDL_Delay(100);
+		SDL_Delay(50);
 		break;
 	}
 	case FADE:
@@ -96,7 +96,7 @@ void Effects::update(Clock* clock, Inputs* inputs, Sound* sound) {
 			opacity = 255;
 			init = true;
 		}
-		opacity -= 15;
+		opacity -= 3;
 		if (opacity < 0) {
 			opacity = 0;
 			effectType = NONE;

@@ -11,10 +11,8 @@ Clock::Clock() {
     characterLifeTime = 0;
     
     pause = true;
-    start = false;
+    restart = false;
     quit = false;
-    animationRunning = false;
-
 }
 
 void Clock::reset() {

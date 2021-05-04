@@ -16,7 +16,6 @@ private:
 	Resources* resources;
 	SDL_Window* screenWindow;
 	SDL_Renderer* renderer;
-	GraphicSupport* graphicSupport;
 
 
 public:
@@ -32,10 +31,7 @@ public:
 	void renderGameObjects(std::vector<GameObjects*>* gameObjects, Clock *clock, Effects *effects);
 	void renderAnimation();
 	void rendererPresent();
-	int getScreenWidth();
-	int getScreenHeight();
-
-	GraphicSupport* getGraphicSupport();
+	
 };
 
 

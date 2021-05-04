@@ -12,18 +12,15 @@ Threat::Threat(int screenWidth, int screenHeight, std::vector<GameObjects*> *gam
 void Threat::createThreats(double *threatCoolDown) {
     if (*threatCoolDown == 0) {
         *threatCoolDown = THREAT_DELAY;
+        int randomX = rand() % 500 + screenWidth;
         int randomThreat = rand() % 100;
         if (randomThreat > 30) {
-            int randomX = rand() % 500 + screenWidth;
-            SDL_Rect hitbox = { randomX, 520, 300, 200 };
-            gameObjects->push_back(new Wolf(randomX, 515, 473, 215, screenWidth, screenHeight, hitbox, gameObjects));
+            SDL_Rect hitbox = { randomX, 520, 250, 200 };
+            gameObjects->push_back(new Wolf(randomX, 515, 473, 215, screenWidth, screenHeight ,false, hitbox, gameObjects));
         }
-        
-        /*
         else {
-            int randomX = rand() % 200 + 900;
-            SDL_Rect hitbox = { randomX, 190, 90, 11 };
-            gameObjects->push_back(new Wolf(randomX, 200, 100, 30, 900, 400, hitbox, gameObjects));
-        }*/
+            SDL_Rect hitbox = { randomX, 520, 250, 200 };
+            gameObjects->push_back(new Wolf(randomX, 515, 473, 215, screenWidth, screenHeight, true, hitbox, gameObjects));
+        }
     }
 }

@@ -7,15 +7,14 @@
 #include "GameObjects.h"
 #include "Resources.h"
 #include "Inputs.h"
-
+#include "Particle.h"
 
 class character : public GameObjects
 {
 private:
 	std::vector<GameObjects*>* gameObjects;
-
-	double gravity, vY, count;
-	bool jump, alive;
+	double vY, ground;
+	bool jump, alive, fall;
 	int frame;
 
 public:
@@ -26,6 +25,7 @@ public:
 	bool isAlive();
 	int getID();
 	void die();
+	int chooseFrames();
 };
 
 #endif // !CHARACTER_H

@@ -5,7 +5,7 @@
 #include <SDL.h>
 
 class Inputs {
-
+	SDL_Event event;
 	bool quit;
 	int mouseX;
 	int mouseY;

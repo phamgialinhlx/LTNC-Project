@@ -7,42 +7,43 @@
 
 int main(int argc, char* argv[])
 {
-	//std::cout << "here" << std::endl;
 	srand(time(NULL));
 	
-	Sound sound;
-	Clock clock;
-	Inputs inputs;
-	Graphics graphics;
-	Effects effects(&graphics.screenWidth, &graphics.screenHeight);
-	theGame intoTheNeverland(graphics.screenWidth, graphics.screenHeight);
+	Sound* sound = new Sound;
+	Clock* clock = new Clock;
+	Inputs* inputs = new Inputs;
+	Graphics* graphics = new Graphics;
+	Effects* effects = new Effects(&graphics->screenWidth, &graphics->screenHeight);
+	theGame* intoTheNeverland= new theGame(graphics->screenWidth, graphics->screenHeight);
 	
 	bool loop = true;
-	SDL_Event e;
 	while (loop) {
 		
-		clock.tick();
+		clock->tick();
 		
-		inputs.update();
-		loop = !inputs.getQuit();
+		inputs->update();
+		loop = !inputs->getQuit();
 		
-		if (effects.effectType != NONE) {
-			effects.update(&clock, &inputs, &sound);
+		if (effects->effectType != NONE) {
+			effects->update(clock, inputs, sound);
 		}
-		intoTheNeverland.update(&inputs, &clock, &sound, &effects);
+		intoTheNeverland->update(inputs, clock, sound, effects);
 		
+		graphics->renderGameObjects(intoTheNeverland->getGameObjects(), clock, effects);
 
-		graphics.clearScreen();
-		graphics.renderGameObjects(intoTheNeverland.getGameObjects(), &clock, &effects);
-		graphics.rendererPresent();
-
-		if (intoTheNeverland.returnQuit()) {
+		if (clock->quit) {
 			break;
 		}
 
-		clock.delay();
+		clock->delay();
 		
 	}
 	
+	delete intoTheNeverland;
+	delete sound;
+	delete clock;
+	delete graphics;
+	delete effects;
+
 	return 0;
 }

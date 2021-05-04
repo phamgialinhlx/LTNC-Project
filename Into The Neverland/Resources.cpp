@@ -7,11 +7,7 @@ Resources::Resources(SDL_Renderer* renderer) {
     {
         printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
     }
-    font = TTF_OpenFont("font/Jetpackia.ttf", 28);
-    if (font == NULL)
-    {
-        printf("Failed to load font! SDL_ttf Error: %s\n", TTF_GetError());
-    }
+
     
 }
 
@@ -34,8 +30,8 @@ void Resources::loadTexture(SDL_Texture **texture, std::string path) {
 
 
 void Resources::loadResources() {
-    loadTexture(&texture["background"][0], "background/background.png");
-    loadTexture(&texture["ground"][0], "background/ground.png");
+    loadTexture(&texture["background"][DEFAULT], "background/background.png");
+    loadTexture(&texture["ground"][DEFAULT], "background/ground.png");
     loadTexture(&texture["mushroom"][0], "background/mushroom.png");
     loadTexture(&texture["mushroom"][1], "background/bigMushroom.png");
 
@@ -67,18 +63,27 @@ void Resources::loadResources() {
     loadTexture(&texture["characterJump"][13], "character/jump/jump14.png");
     loadTexture(&texture["characterJump"][14], "character/jump/jump15.png");
 
-    loadTexture(&texture["violetWolfRun"][0], "violetWolf/run/run0.png");
-    loadTexture(&texture["violetWolfRun"][1], "violetWolf/run/run1.png");
-    loadTexture(&texture["violetWolfRun"][2], "violetWolf/run/run2.png");
-    loadTexture(&texture["violetWolfRun"][3], "violetWolf/run/run3.png");
-    loadTexture(&texture["violetWolfRun"][4], "violetWolf/run/run4.png");
-    loadTexture(&texture["violetWolfRun"][5], "violetWolf/run/run5.png");
-    loadTexture(&texture["violetWolfRun"][6], "violetWolf/run/run6.png");
-    loadTexture(&texture["violetWolfRun"][7], "violetWolf/run/run7.png");
-    loadTexture(&texture["violetWolfRun"][8], "violetWolf/run/run8.png");
-    loadTexture(&texture["violetWolfRun"][9], "violetWolf/run/run9.png");
-    loadTexture(&texture["violetWolfRun"][10], "violetWolf/run/run10.png");
-    loadTexture(&texture["violetWolfRun"][11], "violetWolf/run/run11.png");
+    loadTexture(&texture["wolfRun"][0], "wolf/run/run0.png");
+    loadTexture(&texture["wolfRun"][1], "wolf/run/run1.png");
+    loadTexture(&texture["wolfRun"][2], "wolf/run/run2.png");
+    loadTexture(&texture["wolfRun"][3], "wolf/run/run3.png");
+    loadTexture(&texture["wolfRun"][4], "wolf/run/run4.png");
+    loadTexture(&texture["wolfRun"][5], "wolf/run/run5.png");
+    loadTexture(&texture["wolfRun"][6], "wolf/run/run6.png");
+    loadTexture(&texture["wolfRun"][7], "wolf/run/run7.png");
+    loadTexture(&texture["wolfRun"][8], "wolf/run/run8.png");
+    loadTexture(&texture["wolfRun"][9], "wolf/run/run9.png");
+    loadTexture(&texture["wolfRun"][10], "wolf/run/run10.png");
+    loadTexture(&texture["wolfRun"][11], "wolf/run/run11.png");
+
+    loadTexture(&texture["wolfJump"][0], "wolf/jump/jump1.png");
+    loadTexture(&texture["wolfJump"][1], "wolf/jump/jump2.png");
+    loadTexture(&texture["wolfJump"][2], "wolf/jump/jump3.png");
+    loadTexture(&texture["wolfJump"][3], "wolf/jump/jump4.png");
+    loadTexture(&texture["wolfJump"][4], "wolf/jump/jump5.png");
+
+    loadTexture(&texture["danger"][DEFAULT], "danger.png");
+    loadTexture(&texture["pow"][DEFAULT], "pow.png");
 
     loadTexture(&texture["menu"][0], "menu/menu.png");
     loadTexture(&texture["menu"][1], "menu/soundOnButton.png");
@@ -90,30 +95,35 @@ void Resources::loadResources() {
     loadTexture(&texture["menu"][7], "menu/overExitButton.png");
     loadTexture(&texture["menu"][8], "menu/overPlayButton.png");
 
-    loadTexture(&texture["credit"][0], "credit.png");
+    loadTexture(&texture["credit"][DEFAULT], "credit.png");
 
-    loadTexture(&texture["start_button"][0], "start_button.png");
-    loadTexture(&texture["setting_button"][0], "setting_button.png");
-    loadTexture(&texture["resume_button"][0], "resume.png");
-    loadTexture(&texture["quit_button"][0], "quit.png");
-    loadTexture(&texture["retry_button"][0], "retry.png");
+    loadTexture(&texture["setting_button"][0], "menu/setting_button.png");
+
+    loadTexture(&texture["pause"][DEFAULT], "menu/pauseMenu.png");
+    loadTexture(&texture["unmute"][DEFAULT], "menu/unmute.png");
+    loadTexture(&texture["mute"][DEFAULT], "menu/mute.png");
+
+    loadTexture(&texture["black"][DEFAULT], "TransBG/black.png");
+    loadTexture(&texture["white"][DEFAULT], "TransBG/white.png");
+
+    font[SCORE_SIZE] = TTF_OpenFont("font/arcade.ttf", SCORE_SIZE);
+    font[BEST_SCORE_SIZE] = TTF_OpenFont("font/arcade.ttf", BEST_SCORE_SIZE);
+    font[PAUSE_BUTTON_SIZE] = TTF_OpenFont("font/arcade.ttf", PAUSE_BUTTON_SIZE);
+    font[GAME_OVER_TEXT_SIZE] = TTF_OpenFont("font/arcade.ttf", GAME_OVER_TEXT_SIZE);
+    font[GAME_OVER_BUTTON_SIZE] = TTF_OpenFont("font/arcade.ttf", GAME_OVER_BUTTON_SIZE);
 
 
-    loadTexture(&texture["black"][0], "TransBG/black.png");
-    loadTexture(&texture["white"][0], "TransBG/white.png");
+    texture["resume"][DEFAULT] = createTextTexture("resume", PAUSE_BUTTON_SIZE);
 }
 
 SDL_Texture* Resources::getTexture(std::string path, int frame) {
     return texture[path][frame];
 }
     
-SDL_Texture* Resources::createTextTexture(std::string text) {
+SDL_Texture* Resources::createTextTexture(std::string text, int size) {
     SDL_Texture* texture;
-
-    //std::string score = std::to_string(std::lround(characterLifeTime));
-
-    SDL_Color textColor = { 255, 255, 0 };
-    SDL_Surface* textSurface = TTF_RenderText_Solid(font, text.c_str(), textColor);
+    SDL_Color textColor = { 255, 255, 255 };
+    SDL_Surface* textSurface = TTF_RenderText_Solid(font[size], text.c_str(), textColor);
     texture = SDL_CreateTextureFromSurface(renderer, textSurface);
     SDL_FreeSurface(textSurface);
 
@@ -125,9 +135,13 @@ Resources::~Resources() {
     for (index = texture.begin(); index != texture.end(); index++) {
         std::map<int, SDL_Texture*>::iterator frame;
         for (frame = index->second.begin(); frame != index->second.end(); frame++) {
-            //SDL_DestroyTexture(frame->second);
             SDL_DestroyTexture(frame->second);
         }
     }
-        
+
+    std::map<int, TTF_Font*>::iterator ttf_index;
+    for (ttf_index = font.begin(); ttf_index != font.end(); ttf_index++) {
+        TTF_CloseFont(ttf_index->second);
+        ttf_index->second = NULL;
+    }
 }

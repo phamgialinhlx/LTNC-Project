@@ -37,11 +37,7 @@ private:
 	double speedFix;
 	double groundBaseSpeed;
 
-	
-	bool gameOver, quit;
 	std::vector <GameObjects*> gameObjects;
-
-	//void renderTransparentBlackBG(SDL_Renderer* renderer, Resources* resources);
 
 public:
 	theGame(double screenWidth, double screenHeight);
@@ -52,7 +48,7 @@ public:
 	bool checkCollisions(Sound *sound, Clock *clock);
 	void start(double screenWidth, double screenHeight);
 	void restart();
-	bool returnQuit();
+
 };
 
 

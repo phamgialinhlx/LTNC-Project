@@ -19,12 +19,18 @@ void backGround::render(SDL_Renderer* renderer, Resources* resources, Clock* clo
     switch (clock->gameState) {
     case OPENING_STATE:
     case START_STATE:
-    case PAUSE_STATE:
     case GAME_OVER_STATE:
         break;
+    case PAUSE_STATE:
+    {
+        //std::cout << "[Background] render" << std::endl;
+        SDL_Rect fullscreenRect = { 0, 0, (int)screenWidth, (int)screenHeight };
+        SDL_RenderCopy(renderer, resources->getTexture("pause", DEFAULT), NULL, &fullscreenRect);
+        break;
+    }
     case PLAY_STATE:
-        SDL_Texture* background = resources->getTexture("background", 0);
-        SDL_Texture* ground = resources->getTexture("ground", 0);
+        SDL_Texture* background = resources->getTexture("background", DEFAULT);
+        SDL_Texture* ground = resources->getTexture("ground", DEFAULT);
         SDL_Texture* mushroom = resources->getTexture("mushroom", SMALL_MUSHROOM);
         SDL_Texture* bigMushroom = resources->getTexture("mushroom", BIG_MUSHROOM);
 
@@ -75,12 +81,12 @@ void backGround::update(Clock* clock, Inputs *inputs, double velocity, Sound* so
             }
         }
 
-        x -= velocity;
+        x -= velocity * VFIX;
         if (x < -width / 2 * 3)
         {
             x = 0;
         }
-        xMushroom -= velocity;
+        xMushroom -= velocity * VFIX;
         if (xMushroom < -width / 2 * 3)
         {
             hasMushroom = false;
@@ -95,7 +101,7 @@ bool backGround::isAlive() {
 }
 
 int backGround::getID() {
-    return 0;
+    return BACKGROUND_ID;
 }
 
 void backGround::die() {

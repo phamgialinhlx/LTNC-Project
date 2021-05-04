@@ -41,15 +41,10 @@ Graphics::~Graphics()
 }
 
 void Graphics::renderGameObjects(std::vector<GameObjects*>* gameObjects, Clock *clock, Effects *effects) {
-
-    //if (effects->effectType != NONE) {
-        
-    //}
-    //else {
+    clearScreen();
     switch (effects->effectType)
     {
     case NONE:
-        
         for (int i = 0; i < gameObjects->size(); i++) {
             (*gameObjects)[i]->render(renderer, resources, clock);
         }
@@ -67,25 +62,7 @@ void Graphics::renderGameObjects(std::vector<GameObjects*>* gameObjects, Clock *
         effects->render(renderer, resources, clock);
         break;
     }
-    
-        
-    //}
-    //int buttonID = -1;
-    //for (int i = 0; i < gameObjects->size(); i++) {
-    //    if ((*gameObjects)[i]->getID() == 4) {
-    //        buttonID = i;
-    //    }
-    //    else if (!clock->start){
-    //        if ((*gameObjects)[i]->getID() == 0) {
-    //            (*gameObjects)[i]->render(renderer, resources, clock);
-    //        }
-    //    }
-    //    else {
-    //        (*gameObjects)[i]->render(renderer, resources, clock);
-    //    }
-    //}
-    
-    //(*gameObjects)[buttonID]->render(renderer, resources, clock);
+    rendererPresent();
 }
 
 void Graphics::clearScreen() {
@@ -99,10 +76,5 @@ void Graphics::rendererPresent() {
 
 }
 
-int Graphics::getScreenWidth() {
-    return screenWidth;
-}
-int Graphics::getScreenHeight() {
-    return screenHeight;
-}
+
 
