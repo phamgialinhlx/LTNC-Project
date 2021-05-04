@@ -35,7 +35,7 @@ Bài tập lớn - Game (môn học: Lập trình Nâng cao - INT2215 6)
 ## Notice
 - Tài liệu tham khảo:
   - [Lazy Foo' Production](https://lazyfoo.net/tutorials/SDL/)
-  - Các source code trên github nhưng chủ yếu là [một game bắn tàu](https://github.com/graysonpike/sdl-game)
+  - Các source code trên github nhưng chủ yếu là từ [source này](https://github.com/graysonpike/sdl-game) (một game bắn tàu)
   - Các video trên youtube (em xem một cách góp nhặt cần gì xem ý)
 
 - Assets:
@@ -47,4 +47,3 @@ Bài tập lớn - Game (môn học: Lập trình Nâng cao - INT2215 6)
  - Music:
   - [Sunflower](https://www.youtube.com/watch?v=ApXoWvfEYVU)
   - [He's a Pirate](https://www.youtube.com/watch?v=yRh-dzrI4Z4)
-
