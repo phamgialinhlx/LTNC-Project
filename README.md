@@ -20,6 +20,9 @@ Bài tập lớn - Game (môn học: Lập trình Nâng cao - INT2215 6)
 - Kiến thức để sử dụng thư viện SDL2
 - Kiến thức về cách chia file
 - Tài nguyên của game
+Cách tổ chức game:
+- Các class Wolf, character, Score, Particle, backGround kế thừa class gameObjects
+- Vòng lặp trò chơi bắt đầu bằng việc nhận input, truyền input cho các hàm update của các gameObjects tại thời điểm đó để xử lý dữ liệu và cuối cùng là được render ra màn hình bằng class Graphics
 
 ## Rules
 - Cách chơi y hệt game gốc: nhiệm vụ của người chơi là tránh các chướng ngại vật bằng cách bấm phím cách.
@@ -44,6 +47,6 @@ Bài tập lớn - Game (môn học: Lập trình Nâng cao - INT2215 6)
   - Menu, Character and Wolf Folder was redrawn from the movie and internet by my friend(ducmanh0911.work@gmail.com) and edited by me (some is designed by me)
   - Particle Folder designed and edited by me
  
- - Music:
+- Music:
   - [Sunflower](https://www.youtube.com/watch?v=ApXoWvfEYVU)
   - [He's a Pirate](https://www.youtube.com/watch?v=yRh-dzrI4Z4)
