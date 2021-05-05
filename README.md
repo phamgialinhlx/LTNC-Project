@@ -20,6 +20,7 @@ Bài tập lớn - Game (môn học: Lập trình Nâng cao - INT2215 6)
 - Kiến thức để sử dụng thư viện SDL2
 - Kiến thức về cách chia file
 - Tài nguyên của game
+
 Cách tổ chức game:
 - Các class Wolf, character, Score, Particle, backGround kế thừa class gameObjects
 - Vòng lặp trò chơi bắt đầu bằng việc nhận input, truyền input cho các hàm update của các gameObjects tại thời điểm đó để xử lý dữ liệu và cuối cùng là được render ra màn hình bằng class Graphics
