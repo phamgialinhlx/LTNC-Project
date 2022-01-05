@@ -21,10 +21,7 @@ Preparation:
 - Resources of the game (images, sprites, sound)
 
 Engine:
-- class Wolf
-
-Cách tổ chức game:
-- Các class `Wolf`, `character`, `Score`, `Particle`, `backGround` inherit from class `gameObjects`
+- Class `Wolf`, `character`, `Score`, `Particle`, `backGround` inherit from class `gameObjects`
 - Game Loop:
   - Handle input
   - Update all `gameObjects` by input
