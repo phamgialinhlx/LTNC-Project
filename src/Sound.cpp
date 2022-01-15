@@ -7,6 +7,7 @@ Sound::Sound() {
 		printf("SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError());
 	}
 	mute = false;
+	Log::log("[Sound] init succesfully");
 }
 
 void Sound::changeMusic(int state) {
@@ -29,7 +30,7 @@ bool Sound::loadMusic(int state) {
 	case OPENING_STATE:
 	case START_STATE:
 		
-		music = Mix_LoadMUS("sound/opening_music.mp3");
+		music = Mix_LoadMUS("res/sound/opening_music.mp3");
 		if (music == NULL)
 		{
 			printf("Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError());
@@ -37,7 +38,7 @@ bool Sound::loadMusic(int state) {
 		}
 		break;
 	case PLAY_STATE:
-		music = Mix_LoadMUS("sound/play.mp3");
+		music = Mix_LoadMUS("res/sound/play.mp3");
 		if (music == NULL)
 		{
 			printf("Failed to load beat music! SDL_mixer Error: %s\n", Mix_GetError());

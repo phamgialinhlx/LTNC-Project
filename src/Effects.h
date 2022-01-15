@@ -2,8 +2,8 @@
 #ifndef EFFECTS_H
 #define EFFECTS_H
 
-#include <SDL.h>
-#include <SDL_image.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include "Clock.h"
 #include "Inputs.h"
 #include "Resources.h"

@@ -12,14 +12,15 @@ enum GAME_STATE
 };
 
 class Clock {
+private:
 
 	unsigned int lastTime;
 
 public:
 
 	int gameState;
-	const int FPS = 60;
-	const int frameDelay = 1000 / FPS;
+	static const int FPS = 75;
+	static const int frameDelay = 1000 / FPS;
 
 	int deltaT;
 

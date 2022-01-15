@@ -58,7 +58,7 @@ void Wolf::render(SDL_Renderer* renderer, Resources* resources, Clock* clock) {
 		}
 		SDL_RenderCopyEx(renderer, texture, NULL, &dst, 0,
 			NULL, SDL_FLIP_NONE);
-		renderHitbox(renderer);
+		//renderHitbox(renderer);
 		break;
 	}
 }

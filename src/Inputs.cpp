@@ -1,9 +1,13 @@
 #include "Inputs.h"
+#include "Log.h"
 #include <iostream>
 
 Inputs::Inputs() {
     isClicked = false;
     quit = false;
+
+	Log::log("[Inputs] init succesfully");
+
 }
 
 bool Inputs::getQuit() {

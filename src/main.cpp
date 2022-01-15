@@ -4,18 +4,19 @@
 #include "Inputs.h"
 #include "Effects.h"
 
-
 int main(int argc, char* argv[])
 {
 	srand(time(NULL));
+	Log::log("Initialization...");
 	
-	Sound* sound = new Sound;
-	Clock* clock = new Clock;
-	Inputs* inputs = new Inputs;
-	Graphics* graphics = new Graphics;
+	Sound* sound = new Sound();
+	Clock* clock = new Clock();
+	Inputs* inputs = new Inputs();
+	Graphics* graphics = new Graphics();
 	Effects* effects = new Effects(&graphics->screenWidth, &graphics->screenHeight);
 	theGame* intoTheNeverland= new theGame(graphics->screenWidth, graphics->screenHeight);
-	
+	std::cout << "Initialization finished" << std::endl;	
+
 	bool loop = true;
 	while (loop) {
 		

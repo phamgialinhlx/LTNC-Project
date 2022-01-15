@@ -2,7 +2,7 @@
 #ifndef INPUTS_H
 #define INPUTS_H
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 class Inputs {
 	SDL_Event event;

@@ -5,7 +5,7 @@
 #define TOTAL_JUMP_FRAMES 60
 #define MAXHEIGHT 330
 
-character::character(double x, double y, double width, double height, double screenWidth, 
+Character::Character(double x, double y, double width, double height, double screenWidth, 
 					 double screenHeight, SDL_Rect hitbox ,std::vector<GameObjects*>* gameObjects)
 					:GameObjects(x, y, width, height, screenWidth, screenHeight, hitbox) 
 {
@@ -18,7 +18,7 @@ character::character(double x, double y, double width, double height, double scr
 	fall = true;
 }
 
-int character::chooseFrames() {
+int Character::chooseFrames() {
 	
 	if (!jump){
 		if (frame == 0) return 9;
@@ -44,7 +44,7 @@ int character::chooseFrames() {
 	}
 }
 
-void character::render(SDL_Renderer* renderer, Resources* resources, Clock* clock) {
+void Character::render(SDL_Renderer* renderer, Resources* resources, Clock* clock) {
 	switch (clock->gameState) {
 	case OPENING_STATE:
 	case START_STATE:
@@ -64,7 +64,7 @@ void character::render(SDL_Renderer* renderer, Resources* resources, Clock* cloc
 		}
 
 
-		//std::cout << "[character] frame:" << chooseFrames(characterTimer) << std::endl;
+		//std::cout << "[Character] frame:" << chooseFrames(CharacterTimer) << std::endl;
 		int tWidth, tHeight;
 		SDL_QueryTexture(texture, NULL, NULL, &tWidth, &tHeight);
 		int scale = tWidth / width;
@@ -77,18 +77,18 @@ void character::render(SDL_Renderer* renderer, Resources* resources, Clock* cloc
 
 		SDL_RenderCopyEx(renderer, texture, NULL, &dst, 0,
 			NULL, SDL_FLIP_NONE);
-		renderHitbox(renderer);
+		// renderHitbox(renderer);
 		break;
 	}
 }
 
 
 
-bool character::isAlive() {
+bool Character::isAlive() {
 	return alive;
 }
 
-void character::update(Clock* clock, Inputs *inputs, double velocity, Sound* sound) {
+void Character::update(Clock* clock, Inputs *inputs, double velocity, Sound* sound) {
 	switch (clock->gameState) {
 	case OPENING_STATE:
 	case START_STATE:
@@ -139,9 +139,9 @@ void character::update(Clock* clock, Inputs *inputs, double velocity, Sound* sou
 }
 
 
-int character::getID() {
+int Character::getID() {
 	return CHARACTER_ID;
 }
 
-void character::die() {
+void Character::die() {
 }

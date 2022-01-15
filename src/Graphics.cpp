@@ -27,8 +27,7 @@ Graphics::Graphics()
 {
     initSDL();
     resources = new Resources(renderer);
-    resources->loadResources();
-    
+	Log::log("[Graphics] init succesfully");
 }
 
 Graphics::~Graphics()

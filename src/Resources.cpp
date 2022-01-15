@@ -1,5 +1,5 @@
 #include "Resources.h"
-
+#include "Log.h"
 
 Resources::Resources(SDL_Renderer* renderer) {
 	this->renderer = renderer;
@@ -7,14 +7,15 @@ Resources::Resources(SDL_Renderer* renderer) {
     {
         printf("SDL_ttf could not initialize! SDL_ttf Error: %s\n", TTF_GetError());
     }
+    loadResources();
+	Log::log("[Resources] init succesfully");
 
-    
 }
 
 void Resources::loadTexture(SDL_Texture **texture, std::string path) {
     *texture = NULL;
     SDL_Surface* loaded_surface = NULL;
-    path = "assets/" + path;
+    path = "res/assets/" + path;
     loaded_surface = IMG_Load(path.c_str());
     if (loaded_surface == NULL) {
         printf("Error loading image: %s\n", SDL_GetError());
@@ -31,6 +32,7 @@ void Resources::loadTexture(SDL_Texture **texture, std::string path) {
 
 void Resources::loadResources() {
     loadTexture(&texture["background"][DEFAULT], "background/background.png");
+
     loadTexture(&texture["ground"][DEFAULT], "background/ground.png");
     loadTexture(&texture["mushroom"][0], "background/mushroom.png");
     loadTexture(&texture["mushroom"][1], "background/bigMushroom.png");
@@ -106,14 +108,16 @@ void Resources::loadResources() {
     loadTexture(&texture["black"][DEFAULT], "TransBG/black.png");
     loadTexture(&texture["white"][DEFAULT], "TransBG/white.png");
 
-    font[SCORE_SIZE] = TTF_OpenFont("font/arcade.ttf", SCORE_SIZE);
-    font[BEST_SCORE_SIZE] = TTF_OpenFont("font/arcade.ttf", BEST_SCORE_SIZE);
-    font[PAUSE_BUTTON_SIZE] = TTF_OpenFont("font/arcade.ttf", PAUSE_BUTTON_SIZE);
-    font[GAME_OVER_TEXT_SIZE] = TTF_OpenFont("font/arcade.ttf", GAME_OVER_TEXT_SIZE);
-    font[GAME_OVER_BUTTON_SIZE] = TTF_OpenFont("font/arcade.ttf", GAME_OVER_BUTTON_SIZE);
+    font[SCORE_SIZE] = TTF_OpenFont("res/font/arcade.ttf", SCORE_SIZE);
+    font[BEST_SCORE_SIZE] = TTF_OpenFont("res/font/arcade.ttf", BEST_SCORE_SIZE);
+    font[PAUSE_BUTTON_SIZE] = TTF_OpenFont("res/font/arcade.ttf", PAUSE_BUTTON_SIZE);
+    font[GAME_OVER_TEXT_SIZE] = TTF_OpenFont("res/font/arcade.ttf", GAME_OVER_TEXT_SIZE);
+    font[GAME_OVER_BUTTON_SIZE] = TTF_OpenFont("res/font/arcade.ttf", GAME_OVER_BUTTON_SIZE);
 
 
     texture["resume"][DEFAULT] = createTextTexture("resume", PAUSE_BUTTON_SIZE);
+
+    Log::log("All resources have been loaded!!!");
 }
 
 SDL_Texture* Resources::getTexture(std::string path, int frame) {

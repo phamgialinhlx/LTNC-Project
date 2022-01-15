@@ -3,7 +3,7 @@
 #ifndef WOLF_H
 #define WOLF_H
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include "GameObjects.h"
 #include "Particle.h"
 

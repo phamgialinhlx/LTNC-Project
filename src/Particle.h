@@ -2,7 +2,7 @@
 #ifndef PARTICLE_H
 #define PARTICLE_H
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <vector>
 #include "GameObjects.h"
 #include "Resources.h"

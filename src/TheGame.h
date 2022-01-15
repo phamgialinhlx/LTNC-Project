@@ -3,7 +3,7 @@
 #ifndef THE_GAME_H
 #define THE_GAME_H
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <string>
 #include <iostream>
 #include <vector>

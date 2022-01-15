@@ -7,7 +7,7 @@ Score::Score(int x, int y, std::vector<GameObjects*>* gameObjects) :GameObjects(
 {
     this->gameObjects = gameObjects;
     std::fstream file;
-    file.open("best_score.txt", std::ios::in);
+    file.open("res/best_score.txt", std::ios::in);
     std::string data;
     std::getline(file, data);
     std::stringstream temp(data);
@@ -104,7 +104,7 @@ void Score::die() {
 
 Score::~Score() {
     std::fstream file;
-    file.open("best_score.txt", std::ios::out);
+    file.open("res/best_score.txt", std::ios::out);
     file << bestScore;
     file.close();   
 }
